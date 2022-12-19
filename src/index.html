@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chart.js example</title>
+    <script src="Chart.js" charset="utf-8"></script>
+  </head>
+  <body onload="KidChart([1,2,3,4], {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7]})">
+    <canvas id="bar" width="300" height="200"></canvas>
+    <canvas id="line" width="300" height="200"></canvas>
+    <canvas id="pie" width="300" height="200"></canvas>
+
+
+    <canvas id="barPictogram" width="300" height="200"></canvas>
+
+   <!-- 
+      <canvas id="doughnut" width="300" height="200"></canvas>
+
+    <script src="patternomaly.js"></script>
+
+    <script>
+      console.log(BACKGROUND_COLOR);
+      function load() {
+        var doughnutCanvas = document.getElementById("doughnut");
+        var doughnutContext = doughnutCanvas.getContext("2d");
+
+        var singleDataset = {
+          datasets: [
+            {
+              data: [300, 50, 100, 210, 140, 56, 80, 260, 210, 130, 283],
+              backgroundColor: [
+                pattern.draw("square", "#1f77b4"),
+                pattern.draw("line-diagonal-rl", "#e377c2"),
+                pattern.draw("circle", "#ff7f0e"),
+                pattern.draw("diamond", "#2ca02c"),
+                pattern.draw("triangle-inverted", "#bcbd22"),
+                pattern.draw("line-horizontal", "#d62728"),
+                pattern.draw("zigzag-horizontal", "#17becf"),
+                pattern.draw("line-vertical", "#9467bd"),
+                pattern.draw("triangle", "#7f7f7f"),
+                pattern.draw("line-diagonal-lr", "#8c564b"),
+                pattern.draw("zigzag-vertical", "#3366cc"),
+              ],
+            },
+          ],
+          labels: [
+            "One1",
+            "Two",
+            "Three",
+            "Four",
+            "Five",
+            "Six",
+            "Seven",
+            "Eight",
+            "Nine",
+            "Ten",
+            "Eleven",
+          ],
+        };
+
+        new Chart(doughnutContext, {
+          type: "doughnut",
+          data: singleDataset,
+        });
+      }
+    </script>
+  -->
+    <script>
+          function KidChart(valuesArray, lineGraphValues){
+            let _this = this;
+
+        //izrada stupčastog grafa
+        const bar = new Chart(document.getElementById('bar').getContext('2d'), 
+        {
+          type: 'bar',
+          data: {
+            labels: ['Apples', 'Oranges', 'Bananas', 'Strawberrys'],
+            datasets: [{
+            label: 'Fruit count',
+            data: valuesArray,
+            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']
+            }],
+        }
+        });
+
+        //izrada linijskog grafa
+        const line = new Chart(document.getElementById('line').getContext('2d'), 
+        {
+          type: 'line',
+          data: {
+            labels: ['first day', 'second day', 'third day', 'fourth day'],
+            datasets: [{
+            label: 'Fruit count',
+            data: lineGraphValues.pickedApples/*,
+            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']*/
+            },{
+            label: 'Fruit count',
+            data: lineGraphValues.pickedOranges/*,
+            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']*/
+            },],
+        }
+        });
+
+        //izrada tortnog grafa
+        const pie = new Chart(document.getElementById('pie').getContext('2d'), 
+        {
+          type: 'pie',
+          data: {
+            labels: ['Apples', 'Oranges', 'Bananas', 'Strawberrys'],
+            datasets: [{
+            label: 'Fruit count',
+            data: valuesArray,
+            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']
+            }],
+        }
+        });
+
+        //izrada piktograma stupčastog grafa
+        const img = new Image();
+        img.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Apple-vector.svg';
+        img.onload = () => {
+        const ctx = document.getElementById('barPictogram').getContext('2d');
+        const fillPattern = ctx.createPattern(img, 'repeat');
+        const barPictogram = new Chart(ctx, 
+        {
+          type: 'bar',
+          data: {
+            labels: ['Apples', 'Oranges', 'Bananas', 'Strawberrys'],
+            datasets: [{
+            label: 'Fruit count',
+            data: valuesArray,
+            backgroundColor:fillPattern
+            }],
+        }
+        });}
+      }
+
+    </script>
+  </body>
+</html>
