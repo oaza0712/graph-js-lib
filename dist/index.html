@@ -4,15 +4,14 @@
     <title>Chart.js example</title>
     <script src="/index.1d73f525.js" charset="utf-8"></script>
   </head>
-  <body onload="KidChart([1,2,3,4], {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7]})">
+  <body onload="KidChart([1,2,3,4], {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
     <canvas id="bar" width="150" height="50"></canvas>
     <canvas id="line" width="150" height="50"></canvas>
     <canvas id="pie" width="150" height="50"></canvas>
 
-
     <canvas id="barPictogram" width="150" height="50"></canvas>
 
-   <!-- 
+    <!-- 
       <canvas id="doughnut" width="300" height="200"></canvas>
 
     <script src="patternomaly.js"></script>
@@ -65,7 +64,6 @@
     </script>
   -->
     <script>function KidChart(valuesArray, lineGraphValues) {
-    let _this = this;
     //izrada stupčastog grafa
     const bar = new Chart(document.getElementById("bar").getContext("2d"), {
         type: "bar",
@@ -102,14 +100,32 @@
             ],
             datasets: [
                 {
-                    label: "Fruit count",
-                    data: lineGraphValues.pickedApples /*,
-            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']*/ 
+                    label: "Picked apples",
+                    data: lineGraphValues.pickedApples,
+                    fill: false,
+                    backgroundColor: "rgba(93, 230, 0, 0.8)",
+                    borderColor: "rgba(93, 230, 0, 0.8)"
                 },
                 {
-                    label: "Fruit count",
-                    data: lineGraphValues.pickedOranges /*,
-            backgroundColor: ['rgba(93, 230, 0, 0.8)', 'rgba(233, 148, 0, 0.8)','rgba(255, 252, 0, 0.8)',  'rgba(255, 5, 5, 0.8)']*/ 
+                    label: "Picked oranges",
+                    data: lineGraphValues.pickedOranges,
+                    fill: false,
+                    backgroundColor: "rgba(233, 148, 0, 0.8)",
+                    borderColor: "rgba(233, 148, 0, 0.8)"
+                },
+                {
+                    label: "Picked bananas",
+                    data: lineGraphValues.pickedBananas,
+                    fill: false,
+                    backgroundColor: "rgba(255, 252, 0, 0.8)",
+                    borderColor: "rgba(255, 252, 0, 0.8)"
+                },
+                {
+                    label: "Picked strawberryss",
+                    data: lineGraphValues.pickedStrawberrys,
+                    fill: false,
+                    backgroundColor: "rgba(255, 5, 5, 0.8)",
+                    borderColor: "rgba(255, 5, 5, 0.8)"
                 }
             ]
         }
