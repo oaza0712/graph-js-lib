@@ -86,7 +86,7 @@ function KidChart(userData, lineGraphValues) {
             ctx.save();
             var str = "\uD83D\uDC04";
             for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)//ctx.fillText(, 80, 80)
-            ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 15, y.getPixelForValue(j + 1), 30);
+            ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 10, y.getPixelForValue(j) - 16, 30);
         }
     };
     // config
