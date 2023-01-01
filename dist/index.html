@@ -47,7 +47,7 @@
     </div>
     <div class="chartCard">
       <div class="chartBox">
-        <canvas id="myChart"></canvas>
+        <canvas id="barTransition"></canvas>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -130,9 +130,9 @@ function KidChart(typeOfChart, userData) {
         afterDatasetDraw (chart, args, options) {
             const { ctx , chartArea: { top , bottom , left , right , width , height  } , scales: { x , y  }  } = chart;
             ctx.save();
-            var str = "\uD83D\uDC04";
-            for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)//ctx.fillText(, 80, 80)
-            ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 12, y.getPixelForValue(j + 1), 30);
+            if (typeOfChart == "barTransition") {
+                for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 12, y.getPixelForValue(j + 1), 30);
+            }
         }
     };
     // config
@@ -151,7 +151,7 @@ function KidChart(typeOfChart, userData) {
         ]
     };
     // render init block
-    const myChart = new Chart(document.getElementById("myChart"), config);
+    const myKidChart = new Chart(document.getElementById(typeOfChart), config);
 }
 
 </script>

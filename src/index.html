@@ -43,7 +43,7 @@
     </div>
     <div class="chartCard">
       <div class="chartBox">
-        <canvas id="myChart"></canvas>
+        <canvas id="barTransition"></canvas>
       </div>
     </div>
     <script
@@ -91,11 +91,10 @@
             } = chart;
 
             ctx.save();
-            var str = "\uD83D\uDC04";
 
-            for (let i = 0; i < userData.values.length; i++) {
+            if (typeOfChart == "barTransition"){
+              for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < userData.values[i]; j++) {
-                //ctx.fillText(, 80, 80)
 
                 ctx.fillText(
                   userData.unicode[i],
@@ -105,6 +104,9 @@
                 );
               }
             }
+            }
+
+           
           },
         };
         // config
@@ -122,7 +124,9 @@
         };
 
         // render init block
-        const myChart = new Chart(document.getElementById("myChart"), config);
+        
+          const myKidChart = new Chart(document.getElementById(typeOfChart), config);
+
       }
     </script>
   </body>
