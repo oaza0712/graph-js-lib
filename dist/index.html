@@ -41,7 +41,7 @@
 
 </style>
   </head>
-  <body onload="KidChart([1,2,3,4], {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
+  <body onload="KidChart({'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['u1F34F','u1F34A','ust1F34C','u1F353']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
     <div class="chartMenu">
       <p>WWW.CHARTJS3.COM (Chart JS 4.1.1)</p>
     </div>
@@ -52,20 +52,16 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>// setup
-function KidChart(valuesArray, lineGraphValues) {
+function KidChart(userData, lineGraphValues) {
     const img1 = new Image();
     img1.src = "https://www.chartjs.org/img/chartjs-logo.svg";
+    console.log("userData[labels]", userData.values);
     const data = {
-        labels: [
-            "Apples",
-            "Oranges",
-            "Bananas",
-            "Strawberrys"
-        ],
+        labels: userData.labels,
         datasets: [
             {
                 label: "Type of fruit",
-                data: valuesArray,
+                data: userData.values,
                 backgroundColor: [
                     "rgba(93, 230, 0, 0.8)",
                     "rgba(233, 148, 0, 0.8)",
@@ -87,9 +83,9 @@ function KidChart(valuesArray, lineGraphValues) {
         id: "barAvatar",
         afterDatasetDraw (chart, args, options) {
             const { ctx , chartArea: { top , bottom , left , right , width , height  } , scales: { x , y  }  } = chart;
-            console.log("ISPIS", valuesArray.length);
             ctx.save();
-            for(let i = 0; i < valuesArray.length; i++)for(let j = 0; j < valuesArray[i]; j++)ctx.drawImage(img1, x.getPixelForValue(i) - 15, y.getPixelForValue(j + 1), 30, 30);
+            var str = "\uD83D\uDC04";
+            for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)ctx.drawImage(img1, x.getPixelForValue(i) - 15, y.getPixelForValue(j + 1), 30, 30);
         }
     };
     // config
