@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-16">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Getting Started with Chart JS with www.chartjs3.com</title>
     <style>* {
@@ -41,7 +41,7 @@
 
 </style>
   </head>
-  <body onload="KidChart({'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['u1F34F','u1F34A','ust1F34C','u1F353']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
+  <body onload="KidChart({'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
     <div class="chartMenu">
       <p>WWW.CHARTJS3.COM (Chart JS 4.1.1)</p>
     </div>
@@ -85,7 +85,8 @@ function KidChart(userData, lineGraphValues) {
             const { ctx , chartArea: { top , bottom , left , right , width , height  } , scales: { x , y  }  } = chart;
             ctx.save();
             var str = "\uD83D\uDC04";
-            for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)ctx.drawImage(img1, x.getPixelForValue(i) - 15, y.getPixelForValue(j + 1), 30, 30);
+            for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)//ctx.fillText(, 80, 80)
+            ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 15, y.getPixelForValue(j + 1), 30);
         }
     };
     // config
