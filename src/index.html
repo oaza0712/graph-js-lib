@@ -51,14 +51,13 @@
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
-
-      KidChart({'type': 'bar', 'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]});
+      let typeOfChart = 'barTransition';
+      let Bar = {'type': 'bar', 'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']};
+      let lineGraphValues = {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]}
+      KidChart(typeOfChart, Bar);
       // setup
-      function KidChart(userData, lineGraphValues) {
-        const img1 = new Image();
-        img1.src = "https://www.chartjs.org/img/chartjs-logo.svg";
-
-        console.log("userData[labels]", userData.values);
+      function KidChart(typeOfChart, userData) {
+       
         const data = {
           labels: userData.labels,
           datasets: [
@@ -82,8 +81,8 @@
           ],
         };
         //barAvatar
-        const barAvatar = {
-          id: "barAvatar",
+        const plugin = {
+          id: "plugin",
           afterDatasetDraw(chart, args, options) {
             const {
               ctx,
@@ -119,7 +118,7 @@
               },
             },
           },
-          plugins: [barAvatar],
+          plugins: [plugin],
         };
 
         // render init block
