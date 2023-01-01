@@ -37,9 +37,7 @@
       }
     </style>
   </head>
-  <body
-    onload="KidChart({'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})"
-  >
+  <body>
     <div class="chartMenu">
       <p>WWW.CHARTJS3.COM (Chart JS 4.1.1)</p>
     </div>
@@ -53,12 +51,14 @@
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
+
+      KidChart({'type': 'bar', 'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]});
       // setup
       function KidChart(userData, lineGraphValues) {
         const img1 = new Image();
         img1.src = "https://www.chartjs.org/img/chartjs-logo.svg";
-        
-        console.log('userData[labels]', userData.values)
+
+        console.log("userData[labels]", userData.values);
         const data = {
           labels: userData.labels,
           datasets: [
@@ -90,32 +90,27 @@
               chartArea: { top, bottom, left, right, width, height },
               scales: { x, y },
             } = chart;
-            
 
             ctx.save();
-            var str = '\uD83D\uDC04';
+            var str = "\uD83D\uDC04";
 
             for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < userData.values[i]; j++) {
-                
                 //ctx.fillText(, 80, 80)
 
                 ctx.fillText(
                   userData.unicode[i],
-                  x.getPixelForValue(i)- 12,
-                  y.getPixelForValue(j+1) ,
+                  x.getPixelForValue(i) - 12,
+                  y.getPixelForValue(j + 1),
                   30
                 );
-
-
               }
             }
-
           },
         };
         // config
         const config = {
-          type: "bar",
+          type: userData.type,
           data,
           options: {
             scales: {

@@ -41,7 +41,7 @@
 
 </style>
   </head>
-  <body onload="KidChart({'labels': ['Apples', 'Oranges', 'Bananas', 'Strawberrys'], 'values': [1,2,3,4], 'unicode':['\uD83C\uDF4F','\uD83C\uDF4A','\uD83C\uDF4C','\uD83C\uDF53']}, {'pickedApples':[1,2,3,4], 'pickedOranges':[4,9,2,7], 'pickedBananas':[14,2,2,5], 'pickedStrawberrys':[8,3,6,6]})">
+  <body>
     <div class="chartMenu">
       <p>WWW.CHARTJS3.COM (Chart JS 4.1.1)</p>
     </div>
@@ -51,7 +51,53 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>// setup
+    <script>KidChart({
+    "type": "bar",
+    "labels": [
+        "Apples",
+        "Oranges",
+        "Bananas",
+        "Strawberrys"
+    ],
+    "values": [
+        1,
+        2,
+        3,
+        4
+    ],
+    "unicode": [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53"
+    ]
+}, {
+    "pickedApples": [
+        1,
+        2,
+        3,
+        4
+    ],
+    "pickedOranges": [
+        4,
+        9,
+        2,
+        7
+    ],
+    "pickedBananas": [
+        14,
+        2,
+        2,
+        5
+    ],
+    "pickedStrawberrys": [
+        8,
+        3,
+        6,
+        6
+    ]
+});
+// setup
 function KidChart(userData, lineGraphValues) {
     const img1 = new Image();
     img1.src = "https://www.chartjs.org/img/chartjs-logo.svg";
@@ -91,7 +137,7 @@ function KidChart(userData, lineGraphValues) {
     };
     // config
     const config = {
-        type: "bar",
+        type: userData.type,
         data,
         options: {
             scales: {
