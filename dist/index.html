@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-16">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <title>Charts for children</title>
     <style>* {
   margin: 0;
   padding: 0;
@@ -43,17 +43,62 @@
   </head>
   <body>
     <div class="chartMenu">
-      <p>WWW.CHARTJS3.COM (Chart JS 4.1.1)</p>
+      <p>JS-lib for children data literacy</p>
     </div>
+
+    <!--BarCharts-->
     <div class="chartCard">
       <div class="chartBox">
         <canvas id="barTransition"></canvas>
       </div>
     </div>
+
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <!--PieCharts-->
+    <div class="chartCard">
+        <canvas id="pieChart"></canvas>
+    </div>
+
+    <!--LineCharts-->
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>let typeOfChart = "barTransition";
+    <script>let barTransition = "barTransition";
+let barChart = "barChart";
+let pieChart = "pieChart";
+let lineChart = "lineChart";
 let Bar = {
     "type": "bar",
+    "labels": [
+        "Apples",
+        "Oranges",
+        "Bananas",
+        "Strawberrys"
+    ],
+    "values": [
+        1,
+        2,
+        3,
+        4
+    ],
+    "unicode": [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53"
+    ]
+};
+let Pie = {
+    "type": "pie",
     "labels": [
         "Apples",
         "Oranges",
@@ -99,10 +144,35 @@ let lineGraphValues = {
         6
     ]
 };
-KidChart(typeOfChart, Bar);
+let Line = {
+    "type": "line",
+    "labels": [
+        "first day",
+        "second day",
+        "third day",
+        "fourth day"
+    ],
+    "values": lineGraphValues,
+    "labelDataset": [
+        "pickedApples",
+        "pickedOranges",
+        "pickedBananas",
+        "pickedStrawberrys"
+    ],
+    "unicode": [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53"
+    ]
+};
+KidChart(barTransition, Bar);
+KidChart(barChart, Bar);
+KidChart(pieChart, Pie);
+KidChart(lineChart, Line);
 // setup
 function KidChart(typeOfChart, userData) {
-    const data = {
+    var data = {
         labels: userData.labels,
         datasets: [
             {
@@ -124,7 +194,43 @@ function KidChart(typeOfChart, userData) {
             }
         ]
     };
-    //barAvatar
+    if (typeOfChart == "lineChart") {
+        console.log("if");
+        data = {
+            labels: userData.labels,
+            datasets: [
+                {
+                    label: userData.labelDataset[0],
+                    data: userData.values.pickedApples,
+                    fill: false,
+                    backgroundColor: "rgba(93, 230, 0, 0.8)",
+                    borderColor: "rgba(93, 230, 0, 0.8)"
+                },
+                {
+                    label: userData.labelDataset[1],
+                    data: userData.values.pickedOranges,
+                    fill: false,
+                    backgroundColor: "rgba(233, 148, 0, 0.8)",
+                    borderColor: "rgba(233, 148, 0, 0.8)"
+                },
+                {
+                    label: userData.labelDataset[2],
+                    data: userData.values.pickedBananas,
+                    fill: false,
+                    backgroundColor: "rgba(255, 252, 0, 0.8)",
+                    borderColor: "rgba(255, 252, 0, 0.8)"
+                },
+                {
+                    label: userData.labelDataset[3],
+                    data: userData.values.pickedStrawberrys,
+                    fill: false,
+                    backgroundColor: "rgba(255, 5, 5, 0.8)",
+                    borderColor: "rgba(255, 5, 5, 0.8)"
+                }
+            ]
+        };
+    }
+    //plugin for pictograms
     const plugin = {
         id: "plugin",
         afterDatasetDraw (chart, args, options) {
