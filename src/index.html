@@ -43,26 +43,62 @@
     </div>
 
     <!--BarCharts-->
+
     <div class="chartCard">
       <div class="chartBox">
+        <div>barPictogram</div>
+        <canvas id="barPictogram"></canvas>
+      </div>
+    </div>
+
+    <div class="chartCard">
+      <div class="chartBox">
+        <div>barTransition-done</div>
         <canvas id="barTransition"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
+        <div>barChart-done</div>
         <canvas id="barChart"></canvas>
       </div>
     </div>
 
     <!--PieCharts-->
     <div class="chartCard">
+      <div>piePictogram</div>
+      <canvas id="piePictogram"></canvas>
+    </div>
+
+    <div class="chartCard">
+      <div>pieTransition</div>
+      <canvas id="pieTransition"></canvas>
+    </div>
+
+    <div class="chartCard">
+      <div>pieChart-done</div>
       <canvas id="pieChart"></canvas>
     </div>
 
     <!--LineCharts-->
     <div class="chartCard">
       <div class="chartBox">
+        <div>linePictogram</div>
+        <canvas id="linePictogram"></canvas>
+      </div>
+    </div>
+
+    <div class="chartCard">
+      <div class="chartBox">
+        <div>lineTransition</div>
+        <canvas id="lineTransition"></canvas>
+      </div>
+    </div>
+
+    <div class="chartCard">
+      <div class="chartBox">
+        <div>lineChart-done</div>
         <canvas id="lineChart"></canvas>
       </div>
     </div>
@@ -72,11 +108,30 @@
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
+      //TO DO:
+      //prilagodi širinu emojija na barTransition, barPictogram
+      //da se prikazuje pola jabuke kad su realni projevi u podacima
+      //da se promjeni boja di piše type of fruit
+      //boje sredi da nebudu hardkodirane??
+      //dal je bolje da se parametri unose ovakao ili da jednostavno napravim plugin??
+
+      //NIJE DOBRA IDEJA DA LINE GRAPH BUDE PIKTOGRAM - SVE BI SE PRECRTALO
+
+      //barPictogram
+      //linePictogram
+      //piePictogram
+      //lineTransition
+      //pieTransition
+
+      //4 out of 9 graphs done
+
+      let barPictogram = "barPictogram";
       let barTransition = "barTransition";
       let barChart = "barChart";
 
       let pieChart = "pieChart";
       let lineChart = "lineChart";
+      let lineTransition = "lineTransition";
 
       let Bar = {
         type: "bar",
@@ -110,7 +165,7 @@
       let Line = {
         type: "line",
         labels: ["first day", "second day", "third day", "fourth day"],
-        values: lineGraphValues,
+        values: [1, 2, 3, 4],
         labelDataset: [
           "pickedApples",
           "pickedOranges",
@@ -124,10 +179,20 @@
           "\uD83C\uDF53",
         ],
       };
+      let lineTrans = {
+        type: "line",
+        labels: ["first day", "second day", "third day", "fourth day"],
+        values: [1, 2, 3, 4],
+        labelDataset: ["pickedApples"],
+        unicode: ["\uD83C\uDF4F"],
+      };
 
+      KidChart(barPictogram, Bar);
       KidChart(barTransition, Bar);
       KidChart(barChart, Bar);
       KidChart(pieChart, Pie);
+
+      KidChart(lineTransition, lineTrans);
       KidChart(lineChart, Line);
       // setup
       function KidChart(typeOfChart, userData) {
@@ -153,19 +218,20 @@
             },
           ],
         };
-
+        if (typeOfChart == "barPictogram") {
+          data = [];
+        }
         if (typeOfChart == "lineChart") {
-          console.log("if");
           data = {
             labels: userData.labels,
             datasets: [
               {
                 label: userData.labelDataset[0],
-                data: userData.values.pickedApples,
+                data: userData.values,//userData.values.pickedApples,
                 fill: false,
                 backgroundColor: "rgba(93, 230, 0, 0.8)",
                 borderColor: "rgba(93, 230, 0, 0.8)",
-              },
+              }/*,
               {
                 label: userData.labelDataset[1],
                 data: userData.values.pickedOranges,
@@ -186,7 +252,7 @@
                 fill: false,
                 backgroundColor: "rgba(255, 5, 5, 0.8)",
                 borderColor: "rgba(255, 5, 5, 0.8)",
-              },
+              }*/,
             ],
           };
         }
@@ -215,9 +281,26 @@
                 }
               }
             }
+
+            if (typeOfChart == "lineTransition") {
+              for (let i = 0; i < userData.values.length; i++) {
+                for (let j = 0; j < userData.values[i]; j++) {
+                  ctx.fillText(
+                    userData.unicode[0],
+                    x.getPixelForValue(i) - 8,
+                    y.getPixelForValue(j + 1),
+                    30
+                  );
+                }
+              }
+            }
           },
         };
-        
+        var display = false
+        if(typeOfChart=="pieChart" || typeOfChart=="lineChart"){
+            display = true;
+
+        }
         // config
         const config = {
           type: userData.type,
@@ -229,6 +312,13 @@
               },
             },
           },
+          options: {
+  plugins: {
+    legend: {
+      display: display
+    }
+  }
+},
           plugins: [plugin],
         };
 
