@@ -108,22 +108,7 @@
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
-      //TO DO:
-      //prilagodi širinu emojija na barTransition, barPictogram
-      //da se prikazuje pola jabuke kad su realni projevi u podacima
-      //da se promjeni boja di piše type of fruit
-      //boje sredi da nebudu hardkodirane??
-      //dal je bolje da se parametri unose ovakao ili da jednostavno napravim plugin??
-
-      //NIJE DOBRA IDEJA DA LINE GRAPH BUDE PIKTOGRAM - SVE BI SE PRECRTALO
-
-      //barPictogram
-      //linePictogram
-      //piePictogram
-      //lineTransition
-      //pieTransition
-
-      //4 out of 9 graphs done
+   
 
       let barPictogram = "barPictogram";
       let barTransition = "barTransition";
@@ -227,11 +212,11 @@
             datasets: [
               {
                 label: userData.labelDataset[0],
-                data: userData.values,//userData.values.pickedApples,
+                data: userData.values, //userData.values.pickedApples,
                 fill: false,
                 backgroundColor: "rgba(93, 230, 0, 0.8)",
                 borderColor: "rgba(93, 230, 0, 0.8)",
-              }/*,
+              } /*,
               {
                 label: userData.labelDataset[1],
                 data: userData.values.pickedOranges,
@@ -296,10 +281,9 @@
             }
           },
         };
-        var display = false
-        if(typeOfChart=="pieChart" || typeOfChart=="lineChart"){
-            display = true;
-
+        var display = false;
+        if (typeOfChart == "pieChart" || typeOfChart == "lineChart") {
+          display = true;
         }
         // config
         const config = {
@@ -313,12 +297,12 @@
             },
           },
           options: {
-  plugins: {
-    legend: {
-      display: display
-    }
-  }
-},
+            plugins: {
+              legend: {
+                display: display,
+              },
+            },
+          },
           plugins: [plugin],
         };
 
