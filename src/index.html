@@ -42,6 +42,28 @@
       <p>JS-lib for children data literacy</p>
     </div>
 
+    <!--PieCharts-->
+    <div class="chartCard">
+      <div>
+        <div>piePictogram</div>
+        <canvas id="piePictogram"></canvas>
+      </div>
+    </div>
+
+    <div class="chartCard">
+      <div>
+        <div>pieTransition</div>
+        <canvas id="pieTransition"></canvas>
+      </div>
+    </div>
+
+    <div class="chartCard">
+      <div>
+        <div>pieChart-done</div>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
     <!--BarCharts-->
 
     <div class="chartCard">
@@ -63,22 +85,6 @@
         <div>barChart-done</div>
         <canvas id="barChart"></canvas>
       </div>
-    </div>
-
-    <!--PieCharts-->
-    <div class="chartCard">
-      <div>piePictogram</div>
-      <canvas id="piePictogram"></canvas>
-    </div>
-
-    <div class="chartCard">
-      <div>pieTransition</div>
-      <canvas id="pieTransition"></canvas>
-    </div>
-
-    <div class="chartCard">
-      <div>pieChart-done</div>
-      <canvas id="pieChart"></canvas>
     </div>
 
     <!--LineCharts-->
@@ -108,17 +114,18 @@
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
-   
-
+      //DEFINIRANJE TIPOVA DIJAGRAMA
       let barPictogram = "barPictogram";
       let barTransition = "barTransition";
       let barChart = "barChart";
 
+      let piePictogram = "piePictogram";
+      let pieTransition = "pieTransition";
       let pieChart = "pieChart";
-      let lineChart = "lineChart";
-      let lineTransition = "lineTransition";
-      let linePictogram = "linePictogram";
 
+      let linePictogram = "linePictogram";
+      let lineTransition = "lineTransition";
+      let lineChart = "lineChart";
 
       let Bar = {
         type: "bar",
@@ -174,16 +181,22 @@
         unicode: ["\uD83C\uDF4F"],
       };
 
-      KidChart(barPictogram, Bar);
-      KidChart(barTransition, Bar);
-      KidChart(barChart, Bar);
+      //POZIV FUNKCIJE ZA RENDERING
+      KidChart(piePictogram, Pie);
+      KidChart(pieTransition, Pie);
       KidChart(pieChart, Pie);
 
       KidChart(linePictogram, Line);
       KidChart(lineTransition, lineTrans);
       KidChart(lineChart, Line);
-      // setup
+
+      KidChart(barPictogram, Bar);
+      KidChart(barTransition, Bar);
+      KidChart(barChart, Bar);
+
+      // RENDERING FUNCTION
       function KidChart(typeOfChart, userData) {
+        //DEFAULT DATA VALUES
         var data = {
           labels: userData.labels,
           datasets: [
@@ -206,20 +219,22 @@
             },
           ],
         };
+
         if (typeOfChart == "barPictogram") {
-          data = {
+          var data = {
           labels: userData.labels,
           datasets: [
             {
               label: "Type of fruit",
               data: userData.values,
-              backgroundColor:  "rgba(255, 255, 255, 0.1)",
-              borderColor:  "rgba(255, 255, 255, 0.1)",
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor: "rgba(255, 255, 255, 0.1)",
               borderWidth: 1,
             },
           ],
         };
         }
+
         if (typeOfChart == "lineChart") {
           data = {
             labels: userData.labels,
@@ -230,28 +245,7 @@
                 fill: false,
                 backgroundColor: "rgba(93, 230, 0, 0.8)",
                 borderColor: "rgba(93, 230, 0, 0.8)",
-              } /*,
-              {
-                label: userData.labelDataset[1],
-                data: userData.values.pickedOranges,
-                fill: false,
-                backgroundColor: "rgba(233, 148, 0, 0.8)",
-                borderColor: "rgba(233, 148, 0, 0.8)",
               },
-              {
-                label: userData.labelDataset[2],
-                data: userData.values.pickedBananas,
-                fill: false,
-                backgroundColor: "rgba(255, 252, 0, 0.8)",
-                borderColor: "rgba(255, 252, 0, 0.8)",
-              },
-              {
-                label: userData.labelDataset[3],
-                data: userData.values.pickedStrawberrys,
-                fill: false,
-                backgroundColor: "rgba(255, 5, 5, 0.8)",
-                borderColor: "rgba(255, 5, 5, 0.8)",
-              }*/,
             ],
           };
         }
@@ -265,34 +259,13 @@
                 data: userData.values, //userData.values.pickedApples,
                 fill: false,
                 backgroundColor: "rgba(255, 255, 255, 0.1)",
-                borderColor:"rgba(255, 255, 255, 0.1)",
-              } /*,
-              {
-                label: userData.labelDataset[1],
-                data: userData.values.pickedOranges,
-                fill: false,
-                backgroundColor: "rgba(233, 148, 0, 0.8)",
-                borderColor: "rgba(233, 148, 0, 0.8)",
+                borderColor: "rgba(255, 255, 255, 0.1)",
               },
-              {
-                label: userData.labelDataset[2],
-                data: userData.values.pickedBananas,
-                fill: false,
-                backgroundColor: "rgba(255, 252, 0, 0.8)",
-                borderColor: "rgba(255, 252, 0, 0.8)",
-              },
-              {
-                label: userData.labelDataset[3],
-                data: userData.values.pickedStrawberrys,
-                fill: false,
-                backgroundColor: "rgba(255, 5, 5, 0.8)",
-                borderColor: "rgba(255, 5, 5, 0.8)",
-              }*/,
             ],
           };
         }
 
-        //plugin for pictograms
+        //PLUGIN FOR EMOJI RENDERING
         const plugin = {
           id: "plugin",
           afterDatasetDraw(chart, args, options) {
@@ -303,34 +276,63 @@
             } = chart;
 
             ctx.save();
-
-            if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {
+            if (typeOfChart == "piePictogram") {
               for (let i = 0; i < userData.values.length; i++) {
                 for (let j = 0; j < userData.values[i]; j++) {
                   ctx.fillText(
                     userData.unicode[i],
-                    x.getPixelForValue(i) - 12,
-                    y.getPixelForValue(j + 1),
+                    10, // x.getPixelForValue(i) - 12,
+                    10, // y.getPixelForValue(j + 1),
                     30
                   );
                 }
               }
             }
 
-            if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
+            if (
+              typeOfChart == "barTransition" ||
+              typeOfChart == "barPictogram"
+            ) {
+            
+              let size = y.getPixelForValue(0)-y.getPixelForValue(1)-30
               for (let i = 0; i < userData.values.length; i++) {
                 for (let j = 0; j < userData.values[i]; j++) {
+                  
+                  ctx.font = `${size}px Arial`
                   ctx.fillText(
-                    userData.unicode[0],
-                    x.getPixelForValue(i) - 8,
-                    y.getPixelForValue(j + 1),
-                    30
+                    userData.unicode[i],
+                    x.getPixelForValue(i) - size/2,
+                    y.getPixelForValue(j+0.3),
+                    size
                   );
                 }
               }
             }
+
+            if (
+              typeOfChart == "lineTransition" ||
+              typeOfChart == "linePictogram"
+            ) {
+              let size = y.getPixelForValue(0)-y.getPixelForValue(1)-80
+              for (let i = 0; i < userData.values.length; i++) {
+                for (let j = 0; j < userData.values[i]; j++) {
+                  ctx.font = `${size}px Arial`
+                  ctx.fillText(
+                    userData.unicode[0],
+                    x.getPixelForValue(i) - size/2,
+                    y.getPixelForValue(j+1) + size/4,
+                    size
+                  );
+                }
+              }
+            }
+
+            if (typeOfChart == "piePictogram") {
+              console.log("PIE", ctx);
+            }
           },
         };
+
         var display = false;
         if (typeOfChart == "pieChart" || typeOfChart == "lineChart") {
           display = true;
@@ -351,6 +353,23 @@
               legend: {
                 display: display,
               },
+            },
+            onClick: (evt) => {
+              if (typeOfChart == "piePictogram") {
+                var elements = myKidChart.getElementsAtEventForMode(
+                  evt,
+                  "index",
+                  { intersect: true },
+                  false
+                );
+                // elements[0].fillText(userData.unicode[0],
+                //30,
+                //   30,
+                //  30
+                //);
+                var index = elements[0].index;
+                console.log("ELEMENTS[0] ", elements[0]);
+              }
             },
           },
           plugins: [plugin],
