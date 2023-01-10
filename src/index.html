@@ -117,6 +117,8 @@
       let pieChart = "pieChart";
       let lineChart = "lineChart";
       let lineTransition = "lineTransition";
+      let linePictogram = "linePictogram";
+
 
       let Bar = {
         type: "bar",
@@ -177,6 +179,7 @@
       KidChart(barChart, Bar);
       KidChart(pieChart, Pie);
 
+      KidChart(linePictogram, Line);
       KidChart(lineTransition, lineTrans);
       KidChart(lineChart, Line);
       // setup
@@ -204,7 +207,18 @@
           ],
         };
         if (typeOfChart == "barPictogram") {
-          data = [];
+          data = {
+          labels: userData.labels,
+          datasets: [
+            {
+              label: "Type of fruit",
+              data: userData.values,
+              backgroundColor:  "rgba(255, 255, 255, 0.1)",
+              borderColor:  "rgba(255, 255, 255, 0.1)",
+              borderWidth: 1,
+            },
+          ],
+        };
         }
         if (typeOfChart == "lineChart") {
           data = {
@@ -216,6 +230,42 @@
                 fill: false,
                 backgroundColor: "rgba(93, 230, 0, 0.8)",
                 borderColor: "rgba(93, 230, 0, 0.8)",
+              } /*,
+              {
+                label: userData.labelDataset[1],
+                data: userData.values.pickedOranges,
+                fill: false,
+                backgroundColor: "rgba(233, 148, 0, 0.8)",
+                borderColor: "rgba(233, 148, 0, 0.8)",
+              },
+              {
+                label: userData.labelDataset[2],
+                data: userData.values.pickedBananas,
+                fill: false,
+                backgroundColor: "rgba(255, 252, 0, 0.8)",
+                borderColor: "rgba(255, 252, 0, 0.8)",
+              },
+              {
+                label: userData.labelDataset[3],
+                data: userData.values.pickedStrawberrys,
+                fill: false,
+                backgroundColor: "rgba(255, 5, 5, 0.8)",
+                borderColor: "rgba(255, 5, 5, 0.8)",
+              }*/,
+            ],
+          };
+        }
+
+        if (typeOfChart == "linePictogram") {
+          data = {
+            labels: userData.labels,
+            datasets: [
+              {
+                label: userData.labelDataset[0],
+                data: userData.values, //userData.values.pickedApples,
+                fill: false,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor:"rgba(255, 255, 255, 0.1)",
               } /*,
               {
                 label: userData.labelDataset[1],
@@ -254,7 +304,7 @@
 
             ctx.save();
 
-            if (typeOfChart == "barTransition") {
+            if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {
               for (let i = 0; i < userData.values.length; i++) {
                 for (let j = 0; j < userData.values[i]; j++) {
                   ctx.fillText(
@@ -267,7 +317,7 @@
               }
             }
 
-            if (typeOfChart == "lineTransition") {
+            if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
               for (let i = 0; i < userData.values.length; i++) {
                 for (let j = 0; j < userData.values[i]; j++) {
                   ctx.fillText(

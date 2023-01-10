@@ -114,6 +114,7 @@ let barChart = "barChart";
 let pieChart = "pieChart";
 let lineChart = "lineChart";
 let lineTransition = "lineTransition";
+let linePictogram = "linePictogram";
 let Bar = {
     type: "bar",
     labels: [
@@ -234,6 +235,7 @@ KidChart(barPictogram, Bar);
 KidChart(barTransition, Bar);
 KidChart(barChart, Bar);
 KidChart(pieChart, Pie);
+KidChart(linePictogram, Line);
 KidChart(lineTransition, lineTrans);
 KidChart(lineChart, Line);
 // setup
@@ -260,7 +262,18 @@ function KidChart(typeOfChart, userData) {
             }
         ]
     };
-    if (typeOfChart == "barPictogram") data = [];
+    if (typeOfChart == "barPictogram") data = {
+        labels: userData.labels,
+        datasets: [
+            {
+                label: "Type of fruit",
+                data: userData.values,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor: "rgba(255, 255, 255, 0.1)",
+                borderWidth: 1
+            }
+        ]
+    };
     if (typeOfChart == "lineChart") data = {
         labels: userData.labels,
         datasets: [
@@ -294,16 +307,49 @@ function KidChart(typeOfChart, userData) {
               }*/ 
         ]
     };
+    if (typeOfChart == "linePictogram") data = {
+        labels: userData.labels,
+        datasets: [
+            {
+                label: userData.labelDataset[0],
+                data: userData.values,
+                fill: false,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor: "rgba(255, 255, 255, 0.1)"
+            } /*,
+              {
+                label: userData.labelDataset[1],
+                data: userData.values.pickedOranges,
+                fill: false,
+                backgroundColor: "rgba(233, 148, 0, 0.8)",
+                borderColor: "rgba(233, 148, 0, 0.8)",
+              },
+              {
+                label: userData.labelDataset[2],
+                data: userData.values.pickedBananas,
+                fill: false,
+                backgroundColor: "rgba(255, 252, 0, 0.8)",
+                borderColor: "rgba(255, 252, 0, 0.8)",
+              },
+              {
+                label: userData.labelDataset[3],
+                data: userData.values.pickedStrawberrys,
+                fill: false,
+                backgroundColor: "rgba(255, 5, 5, 0.8)",
+                borderColor: "rgba(255, 5, 5, 0.8)",
+              }*/ 
+        ]
+    };
     //plugin for pictograms
     const plugin = {
         id: "plugin",
         afterDatasetDraw (chart, args, options) {
             const { ctx , chartArea: { top , bottom , left , right , width , height  } , scales: { x , y  }  } = chart;
             ctx.save();
-            if (typeOfChart == "barTransition") {
+            if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {
                 for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)ctx.fillText(userData.unicode[i], x.getPixelForValue(i) - 12, y.getPixelForValue(j + 1), 30);
             }
-            if (typeOfChart == "lineTransition") {
+            if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
                 for(let i1 = 0; i1 < userData.values.length; i1++)for(let j1 = 0; j1 < userData.values[i1]; j1++)ctx.fillText(userData.unicode[0], x.getPixelForValue(i1) - 8, y.getPixelForValue(j1 + 1), 30);
             }
         }
