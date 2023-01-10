@@ -313,14 +313,14 @@
               typeOfChart == "lineTransition" ||
               typeOfChart == "linePictogram"
             ) {
-              let size = y.getPixelForValue(0)-y.getPixelForValue(1)-80
+              let size =( y.getPixelForValue(0)-y.getPixelForValue(1))-70
               for (let i = 0; i < userData.values.length; i++) {
                 for (let j = 0; j < userData.values[i]; j++) {
                   ctx.font = `${size}px Arial`
                   ctx.fillText(
                     userData.unicode[0],
                     x.getPixelForValue(i) - size/2,
-                    y.getPixelForValue(j+1) + size/4,
+                    y.getPixelForValue(j+1) + size -20 ,
                     size
                   );
                 }

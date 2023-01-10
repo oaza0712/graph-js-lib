@@ -328,10 +328,10 @@ function KidChart(typeOfChart, userData) {
                 }
             }
             if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
-                let size1 = y.getPixelForValue(0) - y.getPixelForValue(1) - 80;
+                let size1 = y.getPixelForValue(0) - y.getPixelForValue(1) - 70;
                 for(let i2 = 0; i2 < userData.values.length; i2++)for(let j2 = 0; j2 < userData.values[i2]; j2++){
                     ctx.font = `${size1}px Arial`;
-                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i2) - size1 / 2, y.getPixelForValue(j2 + 1) + size1 / 4, size1);
+                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i2) - size1 / 2, y.getPixelForValue(j2 + 1) + size1 - 20, size1);
                 }
             }
             if (typeOfChart == "piePictogram") console.log("PIE", ctx);
