@@ -79,7 +79,6 @@
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>barTransition-done</div>
         <canvas id="barTransition"></canvas>
       </div>
     </div>
@@ -134,7 +133,7 @@ let Bar = {
     ],
     values: [
         1,
-        2,
+        12.86,
         3,
         4
     ],
@@ -203,8 +202,8 @@ let Line = {
     values: [
         1,
         2,
-        3,
-        4
+        5,
+        7
     ],
     labelDataset: [
         "pickedApples",
@@ -230,8 +229,8 @@ let lineTrans = {
     values: [
         1,
         2,
-        3,
-        4
+        5,
+        7
     ],
     labelDataset: [
         "pickedApples"
@@ -252,6 +251,9 @@ KidChart(barTransition, Bar);
 KidChart(barChart, Bar);
 // RENDERING FUNCTION
 function KidChart(typeOfChart, userData) {
+    //TRIMMING TO WHOLE NUMBERS
+    for(let i = 0; i < userData.values.length; i++)userData.values[i] = Math.floor(userData.values[i]);
+    //CALCULATING PERCENTAGE
     //DEFAULT DATA VALUES
     var data = {
         labels: userData.labels,
@@ -282,8 +284,13 @@ function KidChart(typeOfChart, userData) {
                 label: "Type of fruit",
                 data: userData.values,
                 backgroundColor: "rgba(255, 255, 255, 0.1)",
-                borderColor: "rgba(255, 255, 255, 0.1)",
-                borderWidth: 1
+                borderColor: [
+                    "rgba(93, 230, 0, 1)",
+                    "rgba(233, 148, 0, 1)",
+                    "rgba(255, 252, 0, 1)",
+                    "rgba(255, 5, 5, 1)"
+                ],
+                borderWidth: 5
             }
         ]
     };
@@ -318,23 +325,37 @@ function KidChart(typeOfChart, userData) {
             const { ctx , chartArea: { top , bottom , left , right , width , height  } , scales: { x , y  }  } = chart;
             ctx.save();
             if (typeOfChart == "piePictogram") {
-                for(let i = 0; i < userData.values.length; i++)for(let j = 0; j < userData.values[i]; j++)ctx.fillText(userData.unicode[i], 10, 10, 30);
+                let angles = [];
+                let sum = 0;
+                for(let i = 0; i < userData.values.length; i++)sum += userData.values[i];
+                console.log("SUM ", sum);
+                for(let i1 = 0; i1 < userData.values.length; i1++){
+                    angles[i1] = userData.values[i1] / sum * 6.2831;
+                    console.log("ANGLES ", angles[i1]);
+                }
+                let current_angle = 4.71238898038;
+                for(let i2 = 0; i2 < userData.values.length; i2++){
+                    ctx.fillText(userData.unicode[i2], 150 * Math.cos(current_angle) + 150, 150 * Math.sin(current_angle) + 150, 30);
+                    current_angle += angles[i2];
+                }
             }
             if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {
-                let size = y.getPixelForValue(0) - y.getPixelForValue(1) - 30;
-                for(let i1 = 0; i1 < userData.values.length; i1++)for(let j1 = 0; j1 < userData.values[i1]; j1++){
+                let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
+                for(let i3 = 0; i3 < userData.values.length; i3++)for(let j = 0; j < userData.values[i3]; j++){
                     ctx.font = `${size}px Arial`;
-                    ctx.fillText(userData.unicode[i1], x.getPixelForValue(i1) - size / 2, y.getPixelForValue(j1 + 0.3), size);
+                    ctx.fillText(userData.unicode[i3], x.getPixelForValue(i3) - size / 2, y.getPixelForValue(j + 1) + size / 0.87, size);
                 }
             }
             if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
-                let size1 = y.getPixelForValue(0) - y.getPixelForValue(1) - 70;
-                for(let i2 = 0; i2 < userData.values.length; i2++)for(let j2 = 0; j2 < userData.values[i2]; j2++){
+                let size1 = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
+                for(let i4 = 0; i4 < userData.values.length; i4++)for(let j1 = 0; j1 < userData.values[i4]; j1++){
+                    let between = y.getPixelForValue(0) - y.getPixelForValue(userData.values[i4]);
                     ctx.font = `${size1}px Arial`;
-                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i2) - size1 / 2, y.getPixelForValue(j2 + 1) + size1 - 20, size1);
+                    if (j1 == 0) //
+                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size1 / 2, y.getPixelForValue(j1 + 1.5) + size1, size1);
+                    else ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size1 / 2, y.getPixelForValue(j1 + 1) + size1 * 0.5, size1);
                 }
             }
-            if (typeOfChart == "piePictogram") console.log("PIE", ctx);
         }
     };
     var display = false;
@@ -367,7 +388,10 @@ function KidChart(typeOfChart, userData) {
                     //  30
                     //);
                     var index = elements[0].index;
-                    console.log("ELEMENTS[0] ", elements[0]);
+                    console.log("ELEMENTS[0] ", elements);
+                    console.log("ELEMENTS[1] ", elements[1]);
+                    console.log("ELEMENTS[2] ", elements[2]);
+                    console.log("ELEMENTS[3] ", elements[3]);
                 }
             }
         },
