@@ -328,32 +328,37 @@ function KidChart(typeOfChart, userData) {
                 let angles = [];
                 let sum = 0;
                 for(let i = 0; i < userData.values.length; i++)sum += userData.values[i];
-                console.log("SUM ", sum);
-                for(let i1 = 0; i1 < userData.values.length; i1++){
-                    angles[i1] = userData.values[i1] / sum * 6.2831;
-                    console.log("ANGLES ", angles[i1]);
-                }
+                for(let i1 = 0; i1 < userData.values.length; i1++)angles[i1] = userData.values[i1] / sum * 6.2831;
+                let starting_angle = 4.71238898038;
                 let current_angle = 4.71238898038;
+                let radius = width / 2;
+                let space = 0;
+                let size = width / 2 / (2 * userData.values[userData.values.length - 1]);
                 for(let i2 = 0; i2 < userData.values.length; i2++){
-                    ctx.fillText(userData.unicode[i2], 150 * Math.cos(current_angle) + 150, 150 * Math.sin(current_angle) + 150, 30);
-                    current_angle += angles[i2];
+                    for(let j = 0; j < userData.values[i2]; j++){
+                        ctx.font = `${size}px Arial`;
+                        ctx.fillText(userData.unicode[i2], radius * Math.cos(current_angle) + width / 2, radius * Math.sin(current_angle) + width / 2 - size / 2, 30);
+                        radius -= size + 20;
+                    }
+                    radius = width / 2;
+                    current_angle += 1.5 * angles[i2];
                 }
             }
             if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {
-                let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
-                for(let i3 = 0; i3 < userData.values.length; i3++)for(let j = 0; j < userData.values[i3]; j++){
-                    ctx.font = `${size}px Arial`;
-                    ctx.fillText(userData.unicode[i3], x.getPixelForValue(i3) - size / 2, y.getPixelForValue(j + 1) + size / 0.87, size);
+                let size1 = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
+                for(let i3 = 0; i3 < userData.values.length; i3++)for(let j1 = 0; j1 < userData.values[i3]; j1++){
+                    ctx.font = `${size1}px Arial`;
+                    ctx.fillText(userData.unicode[i3], x.getPixelForValue(i3) - size1 / 2, y.getPixelForValue(j1 + 1) + size1 / 0.87, size1);
                 }
             }
             if (typeOfChart == "lineTransition" || typeOfChart == "linePictogram") {
-                let size1 = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
-                for(let i4 = 0; i4 < userData.values.length; i4++)for(let j1 = 0; j1 < userData.values[i4]; j1++){
+                let size2 = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
+                for(let i4 = 0; i4 < userData.values.length; i4++)for(let j2 = 0; j2 < userData.values[i4]; j2++){
                     let between = y.getPixelForValue(0) - y.getPixelForValue(userData.values[i4]);
-                    ctx.font = `${size1}px Arial`;
-                    if (j1 == 0) //
-                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size1 / 2, y.getPixelForValue(j1 + 1.5) + size1, size1);
-                    else ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size1 / 2, y.getPixelForValue(j1 + 1) + size1 * 0.5, size1);
+                    ctx.font = `${size2}px Arial`;
+                    if (j2 == 0) //
+                    ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size2 / 2, y.getPixelForValue(j2 + 1.5) + size2, size2);
+                    else ctx.fillText(userData.unicode[0], x.getPixelForValue(i4) - size2 / 2, y.getPixelForValue(j2 + 1) + size2 * 0.5, size2);
                 }
             }
         }
@@ -375,23 +380,6 @@ function KidChart(typeOfChart, userData) {
             plugins: {
                 legend: {
                     display: display
-                }
-            },
-            onClick: (evt)=>{
-                if (typeOfChart == "piePictogram") {
-                    var elements = myKidChart.getElementsAtEventForMode(evt, "index", {
-                        intersect: true
-                    }, false);
-                    // elements[0].fillText(userData.unicode[0],
-                    //30,
-                    //   30,
-                    //  30
-                    //);
-                    var index = elements[0].index;
-                    console.log("ELEMENTS[0] ", elements);
-                    console.log("ELEMENTS[1] ", elements[1]);
-                    console.log("ELEMENTS[2] ", elements[2]);
-                    console.log("ELEMENTS[3] ", elements[3]);
                 }
             }
         },
