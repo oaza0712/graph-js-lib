@@ -108,6 +108,8 @@
       </div>
     </div>
 
+    <div class="temp"></div>
+
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/chart.js"
@@ -298,25 +300,36 @@
                 angles[i] = (userData.values[i] / sum) * 6.2831;
               }
 
-              let current_angle = 4.71238898038+ angles[0]/2;
-
+              let current_angle = 4.71238898038 + angles[0] / 2;
+              let max_width = 30;
               for (let i = 0; i < userData.values.length; i++) {
+                let temp =  Math.min((width / 3 / userData.values[i])-5, 30)
+                let size = temp
+               
+                if(temp < 0){
+                  size =Math.max(temp,1);
+                  console.log("Icons don't fit on the chart.");
+                  
+              
+                  userData.values[i]= ( width / 2 -Math.ceil(Math.sqrt(0.5*size*0.5*size+(max_width*max_width/4))))/6;
+                }
 
-                let size = Math.min((width/3)/(userData.values[i]), 30)
-                let radius = (width/2)-30//(Math.sqrt((0.5*size)*(0.5*size)+16*16)/2);;
-
-                for(let j = 0; j < userData.values[i]; j++){
+                let a =0.5*size*0.5*size;
+                let b =max_width*max_width ;
+                let radius = width / 2 -Math.ceil(Math.sqrt(a+(b/4)));
+                console.log("SIZE, MAX_WIDTH, SQRT", size, max_width,Math.ceil(Math.sqrt(a+(b/4))))
+                for (let j = 0; j < userData.values[i]; j++) {
                   ctx.font = `${size}px Arial`;
                   ctx.fillText(
-                  userData.unicode[i],
-                  radius * Math.cos(current_angle) + width/2-size/2,
-                  radius * Math.sin(current_angle) + width/2+16,
-                  30
-                );
-                radius -= size+5; 
+                    userData.unicode[i],
+                    radius * Math.cos(current_angle) + width / 2 - size / 2,
+                    radius * Math.sin(current_angle) + width / 2 + max_width/2,
+                    max_width
+                  );
+                  radius -= size + 5;
                 }
-                  
-                current_angle += angles[i]/2 + angles[i+1]/2;
+
+                current_angle += angles[i] / 2 + angles[i + 1] / 2;
               }
             }
 

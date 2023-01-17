@@ -112,6 +112,8 @@
       </div>
     </div>
 
+    <div class="temp"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>//DEFINIRANJE TIPOVA DIJAGRAMA
 let barPictogram = "barPictogram";
@@ -330,13 +332,22 @@ function KidChart(typeOfChart, userData) {
                 for(let i = 0; i < userData.values.length; i++)sum += userData.values[i];
                 for(let i1 = 0; i1 < userData.values.length; i1++)angles[i1] = userData.values[i1] / sum * 6.2831;
                 let current_angle = 4.71238898038 + angles[0] / 2;
+                let max_width = 30;
                 for(let i2 = 0; i2 < userData.values.length; i2++){
-                    let size = Math.min(width / 3 / userData.values[i2], 30);
-                    let radius = width / 2 - 30 //(Math.sqrt((0.5*size)*(0.5*size)+16*16)/2);;
-                    ;
+                    let temp = Math.min(width / 3 / userData.values[i2] - 5, 30);
+                    let size = temp;
+                    if (temp < 0) {
+                        size = Math.max(temp, 1);
+                        console.log("Icons don't fit on the chart.");
+                        userData.values[i2] = (width / 2 - Math.ceil(Math.sqrt(0.5 * size * 0.5 * size + max_width * max_width / 4))) / 6;
+                    }
+                    let a = 0.5 * size * 0.5 * size;
+                    let b = max_width * max_width;
+                    let radius = width / 2 - Math.ceil(Math.sqrt(a + b / 4));
+                    console.log("SIZE, MAX_WIDTH, SQRT", size, max_width, Math.ceil(Math.sqrt(a + b / 4)));
                     for(let j = 0; j < userData.values[i2]; j++){
                         ctx.font = `${size}px Arial`;
-                        ctx.fillText(userData.unicode[i2], radius * Math.cos(current_angle) + width / 2 - size / 2, radius * Math.sin(current_angle) + width / 2 + 16, 30);
+                        ctx.fillText(userData.unicode[i2], radius * Math.cos(current_angle) + width / 2 - size / 2, radius * Math.sin(current_angle) + width / 2 + max_width / 2, max_width);
                         radius -= size + 5;
                     }
                     current_angle += angles[i2] / 2 + angles[i2 + 1] / 2;
