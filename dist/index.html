@@ -329,19 +329,17 @@ function KidChart(typeOfChart, userData) {
                 let sum = 0;
                 for(let i = 0; i < userData.values.length; i++)sum += userData.values[i];
                 for(let i1 = 0; i1 < userData.values.length; i1++)angles[i1] = userData.values[i1] / sum * 6.2831;
-                let starting_angle = 4.71238898038;
-                let current_angle = 4.71238898038;
-                let radius = width / 2;
-                let space = 0;
-                let size = width / 2 / (2 * userData.values[userData.values.length - 1]);
+                let current_angle = 4.71238898038 + angles[0] / 2;
                 for(let i2 = 0; i2 < userData.values.length; i2++){
+                    let size = Math.min(width / 3 / userData.values[i2], 30);
+                    let radius = width / 2 - 30 //(Math.sqrt((0.5*size)*(0.5*size)+16*16)/2);;
+                    ;
                     for(let j = 0; j < userData.values[i2]; j++){
                         ctx.font = `${size}px Arial`;
-                        ctx.fillText(userData.unicode[i2], radius * Math.cos(current_angle) + width / 2, radius * Math.sin(current_angle) + width / 2 - size / 2, 30);
-                        radius -= size + 20;
+                        ctx.fillText(userData.unicode[i2], radius * Math.cos(current_angle) + width / 2 - size / 2, radius * Math.sin(current_angle) + width / 2 + 16, 30);
+                        radius -= size + 5;
                     }
-                    radius = width / 2;
-                    current_angle += 1.5 * angles[i2];
+                    current_angle += angles[i2] / 2 + angles[i2 + 1] / 2;
                 }
             }
             if (typeOfChart == "barTransition" || typeOfChart == "barPictogram") {

@@ -298,29 +298,25 @@
                 angles[i] = (userData.values[i] / sum) * 6.2831;
               }
 
-
-              let starting_angle = 4.71238898038;
-              let current_angle = 4.71238898038;
-              let radius = width/2;
-              let space= 0;
-              let size = (width/2)/(2*userData.values[userData.values.length-1])
-
+              let current_angle = 4.71238898038+ angles[0]/2;
 
               for (let i = 0; i < userData.values.length; i++) {
+
+                let size = Math.min((width/3)/(userData.values[i]), 30)
+                let radius = (width/2)-30//(Math.sqrt((0.5*size)*(0.5*size)+16*16)/2);;
+
                 for(let j = 0; j < userData.values[i]; j++){
                   ctx.font = `${size}px Arial`;
                   ctx.fillText(
                   userData.unicode[i],
-                  radius * Math.cos(current_angle) + width/2,
-                  radius * Math.sin(current_angle) + width/2-size/2,
+                  radius * Math.cos(current_angle) + width/2-size/2,
+                  radius * Math.sin(current_angle) + width/2+16,
                   30
                 );
-                radius -= size+20; 
+                radius -= size+5; 
                 }
-               
-                radius = width/2;
-
-                current_angle += 1.5*angles[i];
+                  
+                current_angle += angles[i]/2 + angles[i+1]/2;
               }
             }
 
