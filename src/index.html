@@ -59,7 +59,7 @@
 
     <div class="chartCard">
       <div>
-        <div>pieChart-done</div>
+        <div>pieChart</div>
         <canvas id="pieChart"></canvas>
       </div>
     </div>
@@ -75,13 +75,14 @@
 
     <div class="chartCard">
       <div class="chartBox">
+        <div>barTransition</div>
         <canvas id="barTransition"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>barChart-done</div>
+        <div>barChart</div>
         <canvas id="barChart"></canvas>
       </div>
     </div>
@@ -103,7 +104,7 @@
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>lineChart-done</div>
+        <div>lineChart</div>
         <canvas id="lineChart"></canvas>
       </div>
     </div>
@@ -116,13 +117,14 @@
     ></script>
     <script>
       //DEFINIRANJE TIPOVA DIJAGRAMA
-      let barPictogram = "barPictogram";
-      let barTransition = "barTransition";
-      let barChart = "barChart";
 
       let piePictogram = "piePictogram";
       let pieTransition = "pieTransition";
       let pieChart = "pieChart";
+
+      let barPictogram = "barPictogram";
+      let barTransition = "barTransition";
+      let barChart = "barChart";
 
       let linePictogram = "linePictogram";
       let lineTransition = "lineTransition";
@@ -139,6 +141,7 @@
           "\uD83C\uDF53",
         ],
       };
+
       let Pie = {
         type: "pie",
         labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
@@ -151,21 +154,12 @@
         ],
       };
 
-      let lineGraphValues = {
-        pickedApples: [1, 2, 3, 4],
-        pickedOranges: [4, 9, 2, 7],
-        pickedBananas: [14, 2, 2, 5],
-        pickedStrawberrys: [8, 3, 6, 6],
-      };
       let Line = {
         type: "line",
         labels: ["first day", "second day", "third day", "fourth day"],
         values: [1, 2, 5, 7],
         labelDataset: [
           "pickedApples",
-          "pickedOranges",
-          "pickedBananas",
-          "pickedStrawberrys",
         ],
         unicode: [
           "\uD83C\uDF4F",
@@ -174,21 +168,14 @@
           "\uD83C\uDF53",
         ],
       };
-      let lineTrans = {
-        type: "line",
-        labels: ["first day", "second day", "third day", "fourth day"],
-        values: [1, 2, 5, 7],
-        labelDataset: ["pickedApples"],
-        unicode: ["\uD83C\uDF4F"],
-      };
-
+ 
       //POZIV FUNKCIJE ZA RENDERING
       KidChart(piePictogram, Pie);
       KidChart(pieTransition, Pie);
       KidChart(pieChart, Pie);
 
       KidChart(linePictogram, Line);
-      KidChart(lineTransition, lineTrans);
+      KidChart(lineTransition, Line);
       KidChart(lineChart, Line);
 
       KidChart(barPictogram, Bar);
@@ -197,12 +184,11 @@
 
       // RENDERING FUNCTION
       function KidChart(typeOfChart, userData) {
+
         //TRIMMING TO WHOLE NUMBERS
         for (let i = 0; i < userData.values.length; i++) {
           userData.values[i] = Math.floor(userData.values[i]);
         }
-
-        //CALCULATING PERCENTAGE
 
         //DEFAULT DATA VALUES
         var data = {
@@ -228,7 +214,8 @@
           ],
         };
 
-        if (typeOfChart == "barPictogram") {
+  
+        if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
           var data = {
             labels: userData.labels,
             datasets: [
@@ -254,7 +241,7 @@
             datasets: [
               {
                 label: userData.labelDataset[0],
-                data: userData.values, //userData.values.pickedApples,
+                data: userData.values,
                 fill: false,
                 backgroundColor: "rgba(93, 230, 0, 0.8)",
                 borderColor: "rgba(93, 230, 0, 0.8)",
@@ -269,7 +256,7 @@
             datasets: [
               {
                 label: userData.labelDataset[0],
-                data: userData.values, //userData.values.pickedApples,
+                data: userData.values,
                 fill: false,
                 backgroundColor: "rgba(255, 255, 255, 0.1)",
                 borderColor: "rgba(255, 255, 255, 0.1)",
@@ -290,7 +277,11 @@
 
             ctx.save();
 
-            if (typeOfChart == "piePictogram") {
+            if (
+              typeOfChart == "piePictogram" ||
+              typeOfChart == "pieTransition"
+            ) {
+              //CALCULATING WHICH PERCENTAGE OF PIE CHART EACH VALUE TAKES
               let angles = [];
               let sum = 0;
               for (let i = 0; i < userData.values.length; i++) {
@@ -302,30 +293,37 @@
 
               let current_angle = 4.71238898038 + angles[0] / 2;
               let max_width = 30;
+
               for (let i = 0; i < userData.values.length; i++) {
-                let temp =  Math.min((width / 3 / userData.values[i])-5, 30)
-                let size = temp
-               
-                if(temp < 0){
-                  size =Math.max(temp,1);
+
+                let temp = Math.min(width / 3 / userData.values[i] - 5, 30);
+                let size = temp;
+
+                //DISABLING TOO SMALLL ICONS
+                if (temp < 0) {
+                  size = Math.max(temp, 1);
                   console.log("Icons don't fit on the chart.");
-                  
-              
-                  userData.values[i]= ( width / 2 -Math.ceil(Math.sqrt(0.5*size*0.5*size+(max_width*max_width/4))))/6;
+
+                  userData.values[i] =
+                    (width / 2 -
+                      Math.ceil(
+                        Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6;
                 }
 
-                let a =0.5*size*0.5*size;
-                let b =max_width*max_width ;
-                let radius = width / 2 -Math.ceil(Math.sqrt(a+(b/4)));
-                console.log("SIZE, MAX_WIDTH, SQRT", size, max_width,Math.ceil(Math.sqrt(a+(b/4))))
+                let a = 0.5 * size * 0.5 * size;
+                let b = max_width * max_width;
+                let radius = (width / 2 - Math.ceil(Math.sqrt(a + b / 4)) );
+                
                 for (let j = 0; j < userData.values[i]; j++) {
+
                   ctx.font = `${size}px Arial`;
                   ctx.fillText(
                     userData.unicode[i],
                     radius * Math.cos(current_angle) + width / 2 - size / 2,
-                    radius * Math.sin(current_angle) + width / 2 + max_width/2,
+                    radius * Math.sin(current_angle) + width / 2 + max_width / 2,
                     max_width
                   );
+
                   radius -= size + 5;
                 }
 
@@ -365,7 +363,6 @@
 
                   ctx.font = `${size}px Arial`;
                   if (j == 0) {
-                    //
                     ctx.fillText(
                       userData.unicode[0],
                       x.getPixelForValue(i) - size / 2,
@@ -387,9 +384,10 @@
         };
 
         var display = false;
-        if (typeOfChart == "pieChart" || typeOfChart == "lineChart") {
+        if (typeOfChart == "pieChart" || typeOfChart == "lineChart" ) {
           display = true;
         }
+
         // config
         const config = {
           type: userData.type,
