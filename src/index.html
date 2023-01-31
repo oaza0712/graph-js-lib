@@ -23,7 +23,7 @@
       .chartCard {
         width: 100vw;
         height: calc(100vh - 40px);
-        background: rgba(54, 162, 235, 0.2);
+       
         display: flex;
         align-items: center;
         justify-content: center;
@@ -32,8 +32,6 @@
         width: 700px;
         padding: 20px;
         border-radius: 20px;
-        border: solid 3px rgba(54, 162, 235, 1);
-        background: white;
       }
     </style>
   </head>
@@ -45,21 +43,21 @@
     <!--PieCharts-->
     <div class="chartCard">
       <div>
-        <div>piePictogram</div>
+        
         <canvas id="piePictogram"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div>
-        <div>pieTransition</div>
+        
         <canvas id="pieTransition"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div>
-        <div>pieChart</div>
+       
         <canvas id="pieChart"></canvas>
       </div>
     </div>
@@ -68,21 +66,21 @@
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>barPictogram</div>
+        
         <canvas id="barPictogram"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>barTransition</div>
+        
         <canvas id="barTransition"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>barChart</div>
+        
         <canvas id="barChart"></canvas>
       </div>
     </div>
@@ -90,35 +88,50 @@
     <!--LineCharts-->
     <div class="chartCard">
       <div class="chartBox">
-        <div>linePictogram</div>
+        
         <canvas id="linePictogram"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>lineTransition</div>
+        
         <canvas id="lineTransition"></canvas>
       </div>
     </div>
 
     <div class="chartCard">
       <div class="chartBox">
-        <div>lineChart</div>
+       
         <canvas id="lineChart"></canvas>
       </div>
     </div>
 
-    <div class="temp"></div>
+    <canvas id="piePictogram"></canvas>
 
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/chart.js"
     ></script>
     <script>
-      //DEFINIRANJE TIPOVA DIJAGRAMA
 
       let piePictogram = "piePictogram";
+      let Pie = {
+        type: "pie",
+        labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
+        values:  [1,0,0,0],
+        unicode: [
+          "\uD83C\uDF4F",
+          "\uD83C\uDF4A",
+          "\uD83C\uDF4C",
+          "\uD83C\uDF53",
+        ],
+      };
+
+      KidChart(piePictogram, Pie);
+
+
+
       let pieTransition = "pieTransition";
       let pieChart = "pieChart";
 
@@ -133,7 +146,7 @@
       let Bar = {
         type: "bar",
         labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
-        values: [1, 12.86, 3.5, 6],
+        values: [2, 3, 3.5, 4],
         unicode: [
           "\uD83C\uDF4F",
           "\uD83C\uDF4A",
@@ -142,22 +155,11 @@
         ],
       };
 
-      let Pie = {
-        type: "pie",
-        labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
-        values:  [1, 21, 3.5, 6],
-        unicode: [
-          "\uD83C\uDF4F",
-          "\uD83C\uDF4A",
-          "\uD83C\uDF4C",
-          "\uD83C\uDF53",
-        ],
-      };
-
+    
       let Line = {
         type: "line",
         labels: ["first day", "second day", "third day", "fourth day"],
-        values: [1, 12.86, 3.5, 6],
+        values: [1, 3, 2, 8],
         labelDataset: [
           "pickedApples",
         ],
@@ -192,7 +194,7 @@
           labels: userData.labels,
           datasets: [
             {
-              label: "Type of fruit",
+              label: "Number of fruit",
               data: userData.values,
               backgroundColor: [
                 "rgba(93, 230, 0, 0.8)",
