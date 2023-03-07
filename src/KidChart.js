@@ -1,14 +1,12 @@
- // RENDERING FUNCTION
- function KidChart(typeOfChart, userData) {
+function KidChart(typeOfChart, userData) {
 
-
-
+      
   //DEFAULT DATA VALUES
   var data = {
     labels: userData.labels,
     datasets: [
       {
-        label: "Type of fruit",
+        label: "Number of fruit",
         data: userData.values,
         backgroundColor: [
           "rgba(93, 230, 0, 0.8)",
@@ -118,9 +116,9 @@
             console.log("Icons don't fit on the chart.");
 
             userData.values[i] =
-              (width / 2 -
+              ((width / 2 -
                 Math.ceil(
-                  Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6;
+                  Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6)-1;
           }
 
           let a = 0.5 * size * 0.5 * size;
@@ -151,7 +149,7 @@
         let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
 
         for (let i = 0; i < userData.values.length; i++) {
-          for (let j = 0; j<Math.floor(userData.values[i]); j++) {
+          for (let j = 0; j < Math.floor(userData.values[i]); j++) {
             ctx.font = `${size}px Arial`;
             ctx.fillText(
               userData.unicode[i],
@@ -163,15 +161,13 @@
         }
       }
 
-
-
       if (
         typeOfChart == "lineTransition" ||
         typeOfChart == "linePictogram"
       ) {
         let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
         for (let i = 0; i < userData.values.length; i++) {
-          for (let j = 0;j<Math.floor(userData.values[i]); j++) {
+          for (let j = 0; j < Math.floor(userData.values[i]); j++) {
             let between =
               y.getPixelForValue(0) -
               y.getPixelForValue(userData.values[i]);
