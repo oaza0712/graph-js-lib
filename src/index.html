@@ -1,417 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-16" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Charts for children</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-      }
-      .chartMenu {
-        width: 100vw;
-        height: 40px;
-        background: #1a1a1a;
-        color: rgba(54, 162, 235, 1);
-      }
-      .chartMenu p {
-        padding: 10px;
-        font-size: 20px;
-      }
-      .chartCard {
-        width: 100vw;
-        height: calc(100vh - 40px);
-        background: rgba(54, 162, 235, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .chartBox {
-        width: 700px;
-        padding: 20px;
-        border-radius: 20px;
-        border: solid 3px rgba(54, 162, 235, 1);
-        background: white;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="chartMenu">
-      <p>JS-lib for children data literacy</p>
+
+<head>
+  <meta charset="utf-16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Charts for children</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .chartMenu {
+      width: 100vw;
+      height: 40px;
+      background: #1a1a1a;
+      color: rgba(54, 162, 235, 1);
+    }
+
+    .chartMenu p {
+      padding: 10px;
+      font-size: 20px;
+    }
+
+    .chartCard {
+      width: 100vw;
+      height: calc(100vh - 40px);
+      background: rgba(54, 162, 235, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chartBox {
+      width: 700px;
+      padding: 20px;
+      border-radius: 20px;
+      border: solid 3px rgba(54, 162, 235, 1);
+      background: white;
+    }
+
+    td {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgb(99, 196, 215);
+      box-shadow: 10px 10px 5px lightblue;
+    }
+
+    input {
+      border-top-style: hidden;
+      border-right-style: hidden;
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      outline: none;
+
+    }
+
+/* CSS */
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(99, 196, 215);
+  background: #ffffff;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 200%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 100%;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  left: 0;
+  top: 0;
+  border-radius: 100%;
+}
+
+div.dataCards{
+  display:grid;
+  justify-items: stretch;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+div.card {
+
+  width: 250px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  margin: 10px;
+
+}
+div.card:hover {
+  animation: shake 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+div.header {
+  background-color: #f6ffff;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  font-size: 40px;
+  border: 10px rgba(54, 162, 235, 1);
+}
+
+div.container {
+  padding: 10px;
+  background-color:#E6FEFF;
+}
+
+div.container2 {
+  padding: 10px;
+  background-color:#D9F6FF;
+
+}
+.inputCard1 {
+      border-top-style: hidden;
+      border-right-style: hidden;
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      outline: none;
+      background-color:  #f6ffff;
+      opacity: 100;
+ }
+ .inputCard2 {
+      border-top-style: hidden;
+      border-right-style: hidden;
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      outline: none;
+      background-color: #E6FEFF;
+ }
+ .inputCard3 {
+      border-top-style: hidden;
+      border-right-style: hidden;
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      outline: none;
+      background-color:  #D9F6FF;
+ }
+
+  </style>
+</head>
+
+<body>
+  <div class="chartMenu">
+    <p>JS-lib for children data literacy</p>
+  </div>
+
+  <!--Table for emojis-->
+  <div>  <button class="button-85" role="button" id="show">+</button>
+  </div>
+ <!--<input type="submit" class ='button-85' id="show" value="show"> --> 
+  <div style="overflow-x:auto;">
+    <table id="table">
+      <tr>
+        <td><input type="text" id="input" /></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="input" /></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="input" /></td>
+      </tr>
+  </div>
+  <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div class="dataCards" id = "dataCards">
+  
+  <div class="card">
+
+    <div class="header">
+      <input type="text" class="inputCard1" />
+    </div>
+    <div class="container">
+      <input type="text" class="inputCard2" />
+    </div>
+    <div class="container2">
+      <input type="text" class="inputCard3" />
     </div>
 
-    <!--PieCharts-->
-    <div class="chartCard">
-      <div>
-        <div>piePictogram</div>
-        <canvas id="piePictogram"></canvas>
-      </div>
-    </div>
+  </div>
 
-    <div class="chartCard">
-      <div>
-        <div>pieTransition</div>
-        <canvas id="pieTransition"></canvas>
-      </div>
-    </div>
 
-    <div class="chartCard">
-      <div>
-        <div>pieChart</div>
-        <canvas id="pieChart"></canvas>
-      </div>
-    </div>
-
-    <!--BarCharts-->
-
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>barPictogram</div>
-        <canvas id="barPictogram"></canvas>
-      </div>
-    </div>
-
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>barTransition</div>
-        <canvas id="barTransition"></canvas>
-      </div>
-    </div>
-
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>barChart</div>
-        <canvas id="barChart"></canvas>
-      </div>
-    </div>
-
-    <!--LineCharts-->
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>linePictogram</div>
-        <canvas id="linePictogram"></canvas>
-      </div>
-    </div>
-
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>lineTransition</div>
-        <canvas id="lineTransition"></canvas>
-      </div>
-    </div>
-
-    <div class="chartCard">
-      <div class="chartBox">
-        <div>lineChart</div>
-        <canvas id="lineChart"></canvas>
-      </div>
-    </div>
-
-    <div class="temp"></div>
-
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/chart.js"
-    ></script>
-    <script>
-      //DEFINIRANJE TIPOVA DIJAGRAMA
-
-      let piePictogram = "piePictogram";
-      let pieTransition = "pieTransition";
-      let pieChart = "pieChart";
-
-      let barPictogram = "barPictogram";
-      let barTransition = "barTransition";
-      let barChart = "barChart";
-
-      let linePictogram = "linePictogram";
-      let lineTransition = "lineTransition";
-      let lineChart = "lineChart";
-
-      let Bar = {
-        type: "bar",
-        labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
-        values: [1, 12.86, 3, 4],
-        unicode: [
-          "\uD83C\uDF4F",
-          "\uD83C\uDF4A",
-          "\uD83C\uDF4C",
-          "\uD83C\uDF53",
-        ],
-      };
-
-      let Pie = {
-        type: "pie",
-        labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
-        values: [1, 22, 3.78, 3.5],
-        unicode: [
-          "\uD83C\uDF4F",
-          "\uD83C\uDF4A",
-          "\uD83C\uDF4C",
-          "\uD83C\uDF53",
-        ],
-      };
-
-      let Line = {
-        type: "line",
-        labels: ["first day", "second day", "third day", "fourth day"],
-        values: [1, 2.8, 5, 7],
-        labelDataset: [
-          "pickedApples",
-        ],
-        unicode: [
-          "\uD83C\uDF4F",
-          "\uD83C\uDF4A",
-          "\uD83C\uDF4C",
-          "\uD83C\uDF53",
-        ],
-      };
  
-      //POZIV FUNKCIJE ZA RENDERING
-      KidChart(piePictogram, Pie);
-      KidChart(pieTransition, Pie);
-      KidChart(pieChart, Pie);
 
-      KidChart(linePictogram, Line);
-      KidChart(lineTransition, Line);
-      KidChart(lineChart, Line);
+</div>
 
-      KidChart(barPictogram, Bar);
-      KidChart(barTransition, Bar);
-      KidChart(barChart, Bar);
 
-      // RENDERING FUNCTION
-      function KidChart(typeOfChart, userData) {
+<div>  <button class="button-85" role="button" id="add">+</button></div>
+ 
+  <!---------------------------------------------------------------------------------------------------------------------------->
+  </table>
+  <!--PieCharts-->
+  <div class="chartCard">
+    <div>
+      <div>piePictogram</div>
+      <canvas id="piePictogram"></canvas>
+    </div>
+  </div>
 
-      
-        //DEFAULT DATA VALUES
+  <div class="chartCard">
+    <div>
+      <div>pieTransition</div>
+      <canvas id="pieTransition"></canvas>
+    </div>
+  </div>
+
+  <div class="chartCard">
+    <div>
+      <div>pieChart</div>
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+
+  <!--BarCharts-->
+
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>barPictogram</div>
+      <canvas id="barPictogram"></canvas>
+    </div>
+  </div>
+
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>barTransition</div>
+      <canvas id="barTransition"></canvas>
+    </div>
+  </div>
+
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>barChart</div>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <!--LineCharts-->
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>linePictogram</div>
+      <canvas id="linePictogram"></canvas>
+    </div>
+  </div>
+
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>lineTransition</div>
+      <canvas id="lineTransition"></canvas>
+    </div>
+  </div>
+
+  <div class="chartCard">
+    <div class="chartBox">
+      <div>lineChart</div>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <div class="temp"></div>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+
+    button('show', 'dataCards', 'input')
+
+    //TABLICA
+    function button(idButton, idTable, idInput) {
+      const button = document.getElementById("add");
+      button.addEventListener('click', (event) => { addCard(idTable, idInput) });
+
+    }
+    function addCard(idTable, idInput){
+      console.log("1");
+      let dataCard = document.getElementById('dataCards');
+      console.log("2");
+
+      let card = document.createElement('div');
+      card.className = "card";
+      console.log("3");
+
+      let header = document.createElement('div');
+      header.className = "header";
+      let inputCard1 = document.createElement('input');
+      inputCard1.className ="inputCard1"
+      header.appendChild(inputCard1);
+      console.log("4");
+
+      let container = document.createElement('div');
+      container.className = "container";
+      let inputCard2 = document.createElement('input');
+      inputCard2.className ="inputCard2"
+      container.appendChild(inputCard2);
+      console.log("5");
+
+      let container2 = document.createElement('div');
+      container2.className = "container2";
+      let inputCard3 = document.createElement('input');
+      inputCard3.className ="inputCard3"
+      container2.appendChild(inputCard3);
+      console.log("6");
+
+      card.appendChild(header);
+      card.appendChild(container);
+      card.appendChild(container2);
+      console.log("7");
+
+
+      dataCard.appendChild(card);
+      console.log("8");
+
+
+    }
+    function addColumn(idTable, idInput) {
+
+      //add Columns
+      let trs = document.querySelectorAll(idTable + ' tr');
+
+      for (let tr of trs) {
+        let input = document.createElement('input');
+        let td = document.createElement('td');
+        td.appendChild(input);
+        tr.appendChild(td);
+      }
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //DIJAGRAMI
+
+    //DEFINIRANJE TIPOVA DIJAGRAMA
+
+    let piePictogram = "piePictogram";
+    let pieTransition = "pieTransition";
+    let pieChart = "pieChart";
+
+    let barPictogram = "barPictogram";
+    let barTransition = "barTransition";
+    let barChart = "barChart";
+
+    let linePictogram = "linePictogram";
+    let lineTransition = "lineTransition";
+    let lineChart = "lineChart";
+
+    let Bar = {
+      type: "bar",
+      labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
+      values: [1, 12.86, 3, 4],
+      unicode: [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53",
+      ],
+    };
+
+    let Pie = {
+      type: "pie",
+      labels: ["Apples", "Oranges", "Bananas", "Strawberrys"],
+      values: [1, 22, 3.78, 3.5],
+      unicode: [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53",
+      ],
+    };
+
+    let Line = {
+      type: "line",
+      labels: ["first day", "second day", "third day", "fourth day"],
+      values: [1, 2.8, 5, 7],
+      labelDataset: [
+        "pickedApples",
+      ],
+      unicode: [
+        "\uD83C\uDF4F",
+        "\uD83C\uDF4A",
+        "\uD83C\uDF4C",
+        "\uD83C\uDF53",
+      ],
+    };
+
+    //POZIV FUNKCIJE ZA RENDERING
+    KidChart(piePictogram, Pie);
+    KidChart(pieTransition, Pie);
+    KidChart(pieChart, Pie);
+
+    KidChart(linePictogram, Line);
+    KidChart(lineTransition, Line);
+    KidChart(lineChart, Line);
+
+    KidChart(barPictogram, Bar);
+    KidChart(barTransition, Bar);
+    KidChart(barChart, Bar);
+
+    // RENDERING FUNCTION
+    function KidChart(typeOfChart, userData) {
+
+      //MAKING HTML TABLE
+
+
+
+
+      //DEFAULT DATA VALUES
+      var data = {
+        labels: userData.labels,
+        datasets: [
+          {
+            label: "Number of fruit",
+            data: userData.values,
+            backgroundColor: [
+              "rgba(93, 230, 0, 0.8)",
+              "rgba(233, 148, 0, 0.8)",
+              "rgba(255, 252, 0, 0.8)",
+              "rgba(255, 5, 5, 0.8)",
+            ],
+            borderColor: [
+              "rgba(93, 230, 0, 1)",
+              "rgba(233, 148, 0, 1)",
+              "rgba(255, 252, 0, 1)",
+              "rgba(255, 5, 5, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+
+      if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
         var data = {
           labels: userData.labels,
           datasets: [
             {
-              label: "Number of fruit",
+              label: "Type of fruit",
               data: userData.values,
-              backgroundColor: [
-                "rgba(93, 230, 0, 0.8)",
-                "rgba(233, 148, 0, 0.8)",
-                "rgba(255, 252, 0, 0.8)",
-                "rgba(255, 5, 5, 0.8)",
-              ],
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
               borderColor: [
                 "rgba(93, 230, 0, 1)",
                 "rgba(233, 148, 0, 1)",
                 "rgba(255, 252, 0, 1)",
                 "rgba(255, 5, 5, 1)",
               ],
-              borderWidth: 1,
+              borderWidth: 5,
             },
           ],
         };
+      }
 
-  
-        if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
-          var data = {
-            labels: userData.labels,
-            datasets: [
-              {
-                label: "Type of fruit",
-                data: userData.values,
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                borderColor: [
-                  "rgba(93, 230, 0, 1)",
-                  "rgba(233, 148, 0, 1)",
-                  "rgba(255, 252, 0, 1)",
-                  "rgba(255, 5, 5, 1)",
-                ],
-                borderWidth: 5,
-              },
-            ],
-          };
-        }
+      if (typeOfChart == "lineChart") {
+        data = {
+          labels: userData.labels,
+          datasets: [
+            {
+              label: userData.labelDataset[0],
+              data: userData.values,
+              fill: false,
+              backgroundColor: "rgba(93, 230, 0, 0.8)",
+              borderColor: "rgba(93, 230, 0, 0.8)",
+            },
+          ],
+        };
+      }
 
-        if (typeOfChart == "lineChart") {
-          data = {
-            labels: userData.labels,
-            datasets: [
-              {
-                label: userData.labelDataset[0],
-                data: userData.values,
-                fill: false,
-                backgroundColor: "rgba(93, 230, 0, 0.8)",
-                borderColor: "rgba(93, 230, 0, 0.8)",
-              },
-            ],
-          };
-        }
+      if (typeOfChart == "linePictogram") {
+        data = {
+          labels: userData.labels,
+          datasets: [
+            {
+              label: userData.labelDataset[0],
+              data: userData.values,
+              fill: false,
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              borderColor: "rgba(255, 255, 255, 0.1)",
+            },
+          ],
+        };
+      }
 
-        if (typeOfChart == "linePictogram") {
-          data = {
-            labels: userData.labels,
-            datasets: [
-              {
-                label: userData.labelDataset[0],
-                data: userData.values,
-                fill: false,
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                borderColor: "rgba(255, 255, 255, 0.1)",
-              },
-            ],
-          };
-        }
+      //PLUGIN FOR EMOJI RENDERING
+      const plugin = {
+        id: "plugin",
+        afterDatasetDraw(chart, args, options) {
+          const {
+            ctx,
+            chartArea: { top, bottom, left, right, width, height },
+            scales: { x, y },
+          } = chart;
 
-        //PLUGIN FOR EMOJI RENDERING
-        const plugin = {
-          id: "plugin",
-          afterDatasetDraw(chart, args, options) {
-            const {
-              ctx,
-              chartArea: { top, bottom, left, right, width, height },
-              scales: { x, y },
-            } = chart;
+          ctx.save();
 
-            ctx.save();
-
-            if (
-              typeOfChart == "piePictogram" ||
-              typeOfChart == "pieTransition"
-            ) {
-              //CALCULATING WHICH PERCENTAGE OF PIE CHART EACH VALUE TAKES
-              let angles = [];
-              let sum = 0;
-              for (let i = 0; i < userData.values.length; i++) {
-                sum += userData.values[i];
-              }
-              for (let i = 0; i < userData.values.length; i++) {
-                angles[i] = (userData.values[i] / sum) * 6.2831;
-              }
-
-              let current_angle = 4.71238898038 + angles[0] / 2;
-              let max_width = 30;
-
-              for (let i = 0; i < userData.values.length; i++) {
-
-                let temp = Math.min(width / 3 / userData.values[i] - 5, 30);
-                let size = temp;
-
-                //DISABLING TOO SMALLL ICONS
-                if (temp < 0) {
-                  size = Math.max(temp, 1);
-                  console.log("Icons don't fit on the chart.");
-
-                  userData.values[i] =
-                    ((width / 2 -
-                      Math.ceil(
-                        Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6)-1;
-                }
-
-                let a = 0.5 * size * 0.5 * size;
-                let b = max_width * max_width;
-                let radius = (width / 2 - Math.ceil(Math.sqrt(a + b / 4)) );
-                
-                for (let j = 0; j < Math.floor(userData.values[i]); j++) {
-
-                  ctx.font = `${size}px Arial`;
-                  ctx.fillText(
-                    userData.unicode[i],
-                    radius * Math.cos(current_angle) + width / 2 - size / 2,
-                    radius * Math.sin(current_angle) + width / 2 + max_width / 2,
-                    max_width
-                  );
-
-                  radius -= size + 5;
-                }
-
-                current_angle += angles[i] / 2 + angles[i + 1] / 2;
-              }
+          if (
+            typeOfChart == "piePictogram" ||
+            typeOfChart == "pieTransition"
+          ) {
+            //CALCULATING WHICH PERCENTAGE OF PIE CHART EACH VALUE TAKES
+            let angles = [];
+            let sum = 0;
+            for (let i = 0; i < userData.values.length; i++) {
+              sum += userData.values[i];
+            }
+            for (let i = 0; i < userData.values.length; i++) {
+              angles[i] = (userData.values[i] / sum) * 6.2831;
             }
 
-            if (
-              typeOfChart == "barTransition" ||
-              typeOfChart == "barPictogram"
-            ) {
-              let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
+            let current_angle = 4.71238898038 + angles[0] / 2;
+            let max_width = 30;
 
-              for (let i = 0; i < userData.values.length; i++) {
-                for (let j = 0; j < Math.floor(userData.values[i]); j++) {
-                  ctx.font = `${size}px Arial`;
+            for (let i = 0; i < userData.values.length; i++) {
+
+              let temp = Math.min(width / 3 / userData.values[i] - 5, 30);
+              let size = temp;
+
+              //DISABLING TOO SMALLL ICONS
+              if (temp < 0) {
+                size = Math.max(temp, 1);
+                console.log("Icons don't fit on the chart.");
+
+                userData.values[i] =
+                  ((width / 2 -
+                    Math.ceil(
+                      Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6) - 1;
+              }
+
+              let a = 0.5 * size * 0.5 * size;
+              let b = max_width * max_width;
+              let radius = (width / 2 - Math.ceil(Math.sqrt(a + b / 4)));
+
+              for (let j = 0; j < Math.floor(userData.values[i]); j++) {
+
+                ctx.font = `${size}px Arial`;
+                ctx.fillText(
+                  userData.unicode[i],
+                  radius * Math.cos(current_angle) + width / 2 - size / 2,
+                  radius * Math.sin(current_angle) + width / 2 + max_width / 2,
+                  max_width
+                );
+
+                radius -= size + 5;
+              }
+
+              current_angle += angles[i] / 2 + angles[i + 1] / 2;
+            }
+          }
+
+          if (
+            typeOfChart == "barTransition" ||
+            typeOfChart == "barPictogram"
+          ) {
+            let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
+
+            for (let i = 0; i < userData.values.length; i++) {
+              for (let j = 0; j < Math.floor(userData.values[i]); j++) {
+                ctx.font = `${size}px Arial`;
+                ctx.fillText(
+                  userData.unicode[i],
+                  x.getPixelForValue(i) - size / 2,
+                  y.getPixelForValue(j + 1) + size / 0.87,
+                  size
+                );
+              }
+            }
+          }
+
+          if (
+            typeOfChart == "lineTransition" ||
+            typeOfChart == "linePictogram"
+          ) {
+            let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
+            for (let i = 0; i < userData.values.length; i++) {
+              for (let j = 0; j < Math.floor(userData.values[i]); j++) {
+                let between =
+                  y.getPixelForValue(0) -
+                  y.getPixelForValue(userData.values[i]);
+
+                ctx.font = `${size}px Arial`;
+                if (j == 0) {
                   ctx.fillText(
-                    userData.unicode[i],
+                    userData.unicode[0],
                     x.getPixelForValue(i) - size / 2,
-                    y.getPixelForValue(j + 1) + size / 0.87,
+                    y.getPixelForValue(j + 1.5) + size,
+                    size
+                  );
+                } else {
+                  ctx.fillText(
+                    userData.unicode[0],
+                    x.getPixelForValue(i) - size / 2,
+                    y.getPixelForValue(j + 1) + size * 0.5,
                     size
                   );
                 }
               }
             }
+          }
+        },
+      };
 
-            if (
-              typeOfChart == "lineTransition" ||
-              typeOfChart == "linePictogram"
-            ) {
-              let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 2.5;
-              for (let i = 0; i < userData.values.length; i++) {
-                for (let j = 0; j < Math.floor(userData.values[i]); j++) {
-                  let between =
-                    y.getPixelForValue(0) -
-                    y.getPixelForValue(userData.values[i]);
-
-                  ctx.font = `${size}px Arial`;
-                  if (j == 0) {
-                    ctx.fillText(
-                      userData.unicode[0],
-                      x.getPixelForValue(i) - size / 2,
-                      y.getPixelForValue(j + 1.5) + size,
-                      size
-                    );
-                  } else {
-                    ctx.fillText(
-                      userData.unicode[0],
-                      x.getPixelForValue(i) - size / 2,
-                      y.getPixelForValue(j + 1) + size * 0.5,
-                      size
-                    );
-                  }
-                }
-              }
-            }
-          },
-        };
-
-        var display = false;
-        if (typeOfChart == "pieChart" || typeOfChart == "lineChart" ) {
-          display = true;
-        }
-
-        // config
-        const config = {
-          type: userData.type,
-          data,
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: display,
-              },
-            },
-          },
-          plugins: [plugin],
-        };
-
-        // render init block
-
-        const myKidChart = new Chart(
-          document.getElementById(typeOfChart),
-          config
-        );
+      var display = false;
+      if (typeOfChart == "pieChart" || typeOfChart == "lineChart") {
+        display = true;
       }
-    </script>
-  </body>
+
+      // config
+      const config = {
+        type: userData.type,
+        data,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: display,
+            },
+          },
+        },
+        plugins: [plugin],
+      };
+
+      // render init block
+
+      const myKidChart = new Chart(
+        document.getElementById(typeOfChart),
+        config
+      );
+    }
+  </script>
+</body>
+
 </html>
