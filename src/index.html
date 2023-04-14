@@ -231,7 +231,7 @@
     }
 
     .inputCard1 {
-      width:100%;
+      width: 100%;
       height: 100%;
       border-top-style: hidden;
       border-right-style: hidden;
@@ -243,7 +243,7 @@
     }
 
     .inputCard2 {
-      width:100%;
+      width: 100%;
       height: 100%;
       border-top-style: hidden;
       border-right-style: hidden;
@@ -254,7 +254,7 @@
     }
 
     .inputCard3 {
-      width:100%;
+      width: 100%;
       height: 100%;
       border-top-style: hidden;
       border-right-style: hidden;
@@ -270,14 +270,28 @@
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
-   
+  <ul class="utility-group">
+    <li class="emoji-selector" id="emojiSelector">
+        <div class="input-container">
+            <input id="emojiSearch" type="text" name="" id="" placeholder="Search...">
+        </div>
+        <ul id="emojiList" class="emoji-list">
+            
+        </ul>
+    </li>
+    <li id="emojiSelectorIcon"><img src="./icons/face-smile-regular.svg" alt=""></li>
+    <li><img src="./icons/at-solid.svg" alt=""></li>
+    <li><img src="./icons/font-solid.svg" alt=""></li>
+</ul>
   <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
   <div class="dataCards" id="dataCards">
     <div class="row">
-
     </div>
   </div>
   <div> <button class="button-85" role="button" id="add">+</button></div>
+  <div> <button id="emoji">Pick Emoji</button></div>
+  <emoji-picker></emoji-picker>
+
 
   <!---------------------------------------------------------------------------------------------------------------------------->
   <!--PieCharts-->
@@ -352,12 +366,21 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/picmo@latest/dist/umd/index.js"></script>
   <script src="https://unpkg.com/@picmo/popup-picker@latest/dist/umd/index.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 
 
 
+  <script>
+    function emoji(){
+   /*const emojiSelectorIcon = documnet.getElementById('emojiSelectorIcon');
+   const emojiSelector = documnet.getElementById('emojiSelector');
 
-<script  >
-
+    emojiSelectorIcon.addEventListener('click', () => {
+      emojiSelector.classList.toggle('active');
+    })*/
+    fetch('https://emoji-api.com/emojis?access_key=329dfe7d47ca9bf032e6959bd2692f5624520d19').then(res=>res.json()).then(data=>console.log(data))
+  }
+  emoji();
 
     button()
 
