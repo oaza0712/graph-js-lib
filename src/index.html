@@ -216,6 +216,7 @@
       padding: 10px;
       font-size: 40px;
       border: 10px rgba(54, 162, 235, 1);
+      display: flex;
     }
 
     div.container {
@@ -264,6 +265,12 @@
       outline: none;
       background-color: #D9F6FF;
     }
+
+    img{
+      width: 30%; 
+      height: 30%;
+
+    }
   </style>
 </head>
 
@@ -272,7 +279,6 @@
     <p>JS-lib for children data literacy</p>
   </div>
   <div class="chat-container">
-    <div class="chat-body"></div>
     <div class="chat-utilities">
     <!-- bottom utility buttons -->
       <div class="utility-container">
@@ -472,12 +478,56 @@
       let inputCard1 = document.createElement('input');
       inputCard1.className = "inputCard1"
       header.appendChild(inputCard1);
-      console.log("4");
 
+
+
+      //////////////////////////DODAJ ZNAK ZA EMOJIE
+      let chatContainer = document.createElement('div');
+      let chatUtilities = document.createElement('div');
+      let utilityContainer = document.createElement('div');
+      let utilityGroup = document.createElement('ul');
+      let emojiSelectorCreate = document.createElement('li');
+      emojiSelectorCreate.id = 'emojiSelector';
+      let inputContainer = document.createElement('div');
+      let emojiSearchCreate = document.createElement('input');
+      emojiSearchCreate.id = 'emojiSearch';
+      emojiSearchCreate.setAttribute("type", "text");
+      emojiSearchCreate.setAttribute("placeholder", "Search...");
+
+
+      let emojiListCreate = document.createElement('ul');
+      emojiListCreate.className = "emoji-list";
+
+      let emojiSelectorIconCreate = document.createElement('li');
+      emojiSelectorIconCreate.id="emojiSelectorIcon";
+
+      let img = document.createElement('img');
+      img.setAttribute('src','/face-smile-regular.f92a0962.svg');
+      
+      emojiSelectorIconCreate.appendChild(img);
+
+      inputContainer.appendChild(emojiSearchCreate);
+
+      emojiSelectorCreate.appendChild(inputContainer);
+      emojiSelectorCreate.appendChild(emojiListCreate);
+
+      utilityGroup.appendChild(emojiSelectorCreate);
+      utilityGroup.appendChild(emojiSelectorIconCreate);
+
+      utilityContainer.appendChild(utilityGroup);
+      chatUtilities.appendChild(utilityContainer);
+      chatContainer.appendChild(chatUtilities);
+
+      header.appendChild(chatContainer);
+      console.log("4");
+   
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////
       let container = document.createElement('div');
       container.className = "container";
       let inputCard2 = document.createElement('input');
       inputCard2.className = "inputCard2"
+      inputCard2.setAttribute("placeHolder", "Input name");
       container.appendChild(inputCard2);
       console.log("5");
 
@@ -485,6 +535,8 @@
       container2.className = "container2";
       let inputCard3 = document.createElement('input');
       inputCard3.className = "inputCard3"
+      inputCard3.setAttribute("placeHolder", "Input number");
+
       container2.appendChild(inputCard3);
       console.log("6");
 
