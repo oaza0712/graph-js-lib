@@ -217,6 +217,12 @@
       font-size: 40px;
       border: 10px rgba(54, 162, 235, 1);
       display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div.chat-utilities {
+      height: min-content;
     }
 
     div.container {
@@ -242,6 +248,7 @@
       outline: none;
       background-color: #f6ffff;
       opacity: 100;
+      text-align: center;
     }
 
     .inputCard2 {
@@ -253,6 +260,8 @@
       border-bottom-style: hidden;
       outline: none;
       background-color: #E6FEFF;
+      text-align: center;
+
     }
 
     .inputCard3 {
@@ -264,11 +273,7 @@
       border-bottom-style: hidden;
       outline: none;
       background-color: #D9F6FF;
-    }
-
-    img{
-      width: 30%; 
-      height: 30%;
+      text-align: center;
 
     }
   </style>
@@ -278,26 +283,7 @@
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
-  <div class="chat-container">
-    <div class="chat-utilities">
-    <!-- bottom utility buttons -->
-      <div class="utility-container">
-       
-        <ul class="utility-group">
-          <li class="emoji-selector" id="emojiSelector">
-            <div class="input-container">
-              <input id="emojiSearch" type="text" name="" id="" placeholder="Search...">
-            </div>
-            <ul id="emojiList" class="emoji-list">
 
-            </ul>
-          </li>
-          <li id="emojiSelectorIcon"><img src="./icons/face-smile-regular.svg" alt=""></li>
-         
-        </ul>
-      </div>
-    </div>
-  </div>
   <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
   <div class="dataCards" id="dataCards">
     <div class="row">
@@ -378,83 +364,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-
   <script>
-
-    const emojiSelectorIcon = document.getElementById('emojiSelectorIcon');
-    const emojiSelector = document.getElementById('emojiSelector');
-    const emojiList = document.getElementById('emojiList');
-    const emojiSearch = document.getElementById('emojiSearch');
-
-
-    emojiSelectorIcon.addEventListener('click', () => {
-      emojiSelector.classList.toggle('active');
-    });
-
-    let emojiCategories = [];
-    function setEmojiCategories(wishedCategories) {
-      emojiCategories = wishedCategories;
-    }
-    setEmojiCategories(['smileys-emotion', 'objects'])
-
-    let EmojisPerCategory;
-    function setEmojisPerCategory(num) {
-      EmojisPerCategory = num;
-    }
-
-    setEmojisPerCategory(10);
-
-
-    fetch('https://emoji-api.com/emojis?access_key=329dfe7d47ca9bf032e6959bd2692f5624520d19').then(res => res.json()).then(data => loadEmoji(data, emojiCategories, EmojisPerCategory));
-
-    function loadEmoji(data, emojiCategories, EmojisPerCategory) {
-      let counter =0;
-      let previousCategory;
-      let currentCategory;
-      let first = true;
-
-      for(let i = 0; i < data.length; i++){
-        console.log(data[i]);
-      }
-      data.forEach(emoji => {
-        if(first){
-          previousCategory =  emoji.group;
-          first = false;
-        }
-        let li = document.createElement('li');
-        li.setAttribute('emoji-name', emoji.slug)
-        li.textContent = emoji.character;
-        let currentCategory = emoji.group;
-        if(previousCategory == currentCategory){
-             counter++;
-          } else{
-            counter = 1;
-          }
-        if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
-          emojiList.appendChild(li);
-          console.log("if " + previousCategory + " " +currentCategory + " " + counter);
-          previousCategory = currentCategory;
-
-        }
-      });
-    }
-
-
-
-    emojiSearch.addEventListener('keyup', e => {
-      let value = e.target.value;
-      let emojis = document.querySelectorAll('#emojiList li');
-      emojis.forEach(emoji => {
-        console.log(emoji.getAttribute('emoji-name'));
-        if (emoji.getAttribute('emoji-name').toLowerCase().includes(value)) {
-          emoji.style.display = 'flex';
-        } else {
-          emoji.style.display = 'none';
-        }
-      })
-    })
-
-    ///////////////////////////////////////////////////////////////////////
 
     button()
 
@@ -477,18 +387,29 @@
       header.className = "header";
       let inputCard1 = document.createElement('input');
       inputCard1.className = "inputCard1"
-      header.appendChild(inputCard1);
 
 
 
       //////////////////////////DODAJ ZNAK ZA EMOJIE
       let chatContainer = document.createElement('div');
+      chatContainer.className = 'chat-container';
+
       let chatUtilities = document.createElement('div');
+      chatUtilities.className = 'chat-utilities';
+
       let utilityContainer = document.createElement('div');
+      utilityContainer.className = 'utility-container';
+
       let utilityGroup = document.createElement('ul');
+      utilityGroup.className = 'utility-group';
+
       let emojiSelectorCreate = document.createElement('li');
+      emojiSelectorCreate.className = 'emoji-selector';
       emojiSelectorCreate.id = 'emojiSelector';
+
       let inputContainer = document.createElement('div');
+      inputContainer.className = 'input-container';
+
       let emojiSearchCreate = document.createElement('input');
       emojiSearchCreate.id = 'emojiSearch';
       emojiSearchCreate.setAttribute("type", "text");
@@ -497,13 +418,14 @@
 
       let emojiListCreate = document.createElement('ul');
       emojiListCreate.className = "emoji-list";
+      emojiListCreate.id = 'emojiList';
 
       let emojiSelectorIconCreate = document.createElement('li');
-      emojiSelectorIconCreate.id="emojiSelectorIcon";
+      emojiSelectorIconCreate.id = "emojiSelectorIcon";
 
       let img = document.createElement('img');
-      img.setAttribute('src','/face-smile-regular.f92a0962.svg');
-      
+      img.setAttribute('src', '/face-smile-regular.f92a0962.svg');
+
       emojiSelectorIconCreate.appendChild(img);
 
       inputContainer.appendChild(emojiSearchCreate);
@@ -519,36 +441,116 @@
       chatContainer.appendChild(chatUtilities);
 
       header.appendChild(chatContainer);
-      console.log("4");
-   
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
+      var isOutOfViewport = function (elem) {
+
+        // Get element's bounding
+        var bounding = elem.getBoundingClientRect();
+
+        // Check if it's out of the viewport on each side
+        var out = {};
+        out.top = bounding.top < 0;
+        out.left = bounding.left < 0;
+        out.bottom = bounding.bottom > (window.innerHeight || document.documentElement.clientHeight);
+        out.right = bounding.right > (window.innerWidth || document.documentElement.clientWidth);
+        out.any = out.top || out.left || out.bottom || out.right;
+        out.all = out.top && out.left && out.bottom && out.right;
+
+        return out;
+
+      };
+
+      emojiSelectorIconCreate.addEventListener('click', () => {
+        emojiSelectorCreate.classList.toggle('active');
+        var isOut = isOutOfViewport(emojiSelectorCreate);
+        if (isOut.any) {
+          emojiSelectorCreate.style.bottom='-710%'
+        }
+      });
+
+      let emojiCategories = [];
+      function setEmojiCategories(wishedCategories) {
+        emojiCategories = wishedCategories;
+      }
+      setEmojiCategories(['smileys-emotion', 'objects'])
+
+      let EmojisPerCategory;
+      function setEmojisPerCategory(num) {
+        EmojisPerCategory = num;
+      }
+
+      setEmojisPerCategory(10);
+
+      fetch('https://emoji-api.com/emojis?access_key=329dfe7d47ca9bf032e6959bd2692f5624520d19').then(res => res.json()).then(data => loadEmoji(data, emojiCategories, EmojisPerCategory));
+
+      function loadEmoji(data, emojiCategories, EmojisPerCategory) {
+        let counter = 0;
+        let previousCategory;
+        let currentCategory;
+        let first = true;
+
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i]);
+        }
+        data.forEach(emoji => {
+          if (first) {
+            previousCategory = emoji.group;
+            first = false;
+          }
+          let li = document.createElement('li');
+          li.setAttribute('emoji-name', emoji.slug)
+          li.textContent = emoji.character;
+          let currentCategory = emoji.group;
+          if (previousCategory == currentCategory) {
+            counter++;
+          } else {
+            counter = 1;
+          }
+          if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
+            emojiListCreate.appendChild(li);
+            console.log("if " + previousCategory + " " + currentCategory + " " + counter);
+            previousCategory = currentCategory;
+
+          }
+        });
+      }
+
+
+      emojiSearchCreate.addEventListener('keyup', e => {
+        let value = e.target.value;
+        let emojis = document.querySelectorAll('#emojiList li');
+        emojis.forEach(emoji => {
+          console.log(emoji.getAttribute('emoji-name'));
+          if (emoji.getAttribute('emoji-name').toLowerCase().includes(value)) {
+            emoji.style.display = 'flex';
+          } else {
+            emoji.style.display = 'none';
+          }
+        })
+      })
+      //////////////////////////////////////////////////////////////////////////
+
+
       let container = document.createElement('div');
       container.className = "container";
       let inputCard2 = document.createElement('input');
       inputCard2.className = "inputCard2"
       inputCard2.setAttribute("placeHolder", "Input name");
       container.appendChild(inputCard2);
-      console.log("5");
 
       let container2 = document.createElement('div');
       container2.className = "container2";
       let inputCard3 = document.createElement('input');
       inputCard3.className = "inputCard3"
       inputCard3.setAttribute("placeHolder", "Input number");
-
       container2.appendChild(inputCard3);
-      console.log("6");
 
       card.appendChild(header);
       card.appendChild(container);
       card.appendChild(container2);
-      console.log("7");
-
 
       dataCard.appendChild(card);
-      console.log("8");
-
 
     }
 

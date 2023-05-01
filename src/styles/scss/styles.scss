@@ -1,5 +1,5 @@
-$chat-util-height: 206px;
-$icon-size: 50px;
+$chat-util-height: 100%;
+$icon-size: 90px;
 $accent: rgb(111, 109, 226);
 
 @mixin flex($direction, $wrapping, $justify, $align) {
@@ -49,29 +49,20 @@ li {
     list-style: none;
 }
 
-body {
-    min-height: 100vh;
-}
-
-.chat-container {
-    height: 100%;
-}
-
-.chat-body {
-    @include bg(#eee);
-    height: calc(100vh - $chat-util-height);
-}
 
 .chat-utilities {
     @include flex(column, nowrap, flex-start, flex-start);
     @include bg(white);
-    border-top: 1px solid rgba(black, 0.05);
     gap: .5rem;
     padding: 1.5rem 1rem 1rem;
-    height: $chat-util-height;
+    height: 70px;
+    position: relative;
+    border-top: 0px transparent white !important;
     .utility-container {
         @include flex(row, nowrap, flex-start, center);
         gap: .5rem;
+        position:relative;
+
         ul {
             @include flex(row, nowrap, flex-start, center);
             @include radius(25px);
@@ -100,6 +91,7 @@ body {
                     padding: 0;
                     border: 1px solid #eee;
                     position: absolute;
+                    top: 120px;
                     bottom: 0%;
                     width: 325px;
                     height: 350px;
@@ -109,7 +101,7 @@ body {
                     overflow: auto;
                     transition: bottom 0.3s ease, opacity 0.3s ease;
                     &.active {
-                        bottom: 110%;
+                        bottom: 0%;
                         opacity: 1;
                         pointer-events: all;
                     }
