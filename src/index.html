@@ -223,6 +223,8 @@
 
     div.chat-utilities {
       height: min-content;
+      border-top-style: hidden !important;
+
     }
 
     div.container {
@@ -375,13 +377,10 @@
 
     }
     function addCard() {
-      console.log("1");
       let dataCard = document.getElementById('dataCards');
-      console.log("2");
 
       let card = document.createElement('div');
       card.className = "card";
-      console.log("3");
 
       let header = document.createElement('div');
       header.className = "header";

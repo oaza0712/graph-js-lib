@@ -1,54 +1,3 @@
-$chat-util-height: 100%;
-$icon-size: 90px;
-$accent: rgb(111, 109, 226);
-
-@mixin flex($direction, $wrapping, $justify, $align) {
-    @content;
-    display: flex;
-    flex-direction: $direction;
-    flex-wrap: $wrapping;
-    justify-content: $justify;
-    align-items: $align;
-}
-
-@mixin center-flex {
-    @content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@mixin bg($color) {
-    @content;
-    background-color: $color;
-}
-
-@mixin radius($radius) {
-    @content;
-    border-radius: $radius;
-}
-
-@mixin transition {
-    @content;
-    transition: all .3s ease;
-}
-
-@mixin same-size($size) {
-    @content;
-    height: $size;
-    width: $size;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-li {
-    list-style: none;
-}
-
 
 .chat-utilities {
     @include flex(column, nowrap, flex-start, flex-start);
@@ -57,11 +6,12 @@ li {
     padding: 1.5rem 1rem 1rem;
     height: 70px;
     position: relative;
-    border-top: 0px transparent white !important;
     .utility-container {
         @include flex(row, nowrap, flex-start, center);
         gap: .5rem;
         position:relative;
+        
+
 
         ul {
             @include flex(row, nowrap, flex-start, center);
@@ -134,39 +84,5 @@ li {
             }
         }
     }
-    form {
-        @include flex(row, nowrap, flex-start, center);
-        @include bg(#eee);
-        @include radius(50px);
-        overflow: hidden;
-        width: 100%;
-        input, button {
-            outline: none;
-            border: none;
-            padding: .5rem;
-            height: 50px;
-        }
-        input {
-            @include bg(transparent);
-            width: 100%;
-            padding-left: 1.5rem;
-            font-size: 1.2rem;
-            color: rgb(59, 69, 84);
-        }
-        button {
-            @include bg($accent);
-            @include radius(25px);
-            @include flex(row, nowrap, center, center);
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 0 2rem;
-            color: white;
-            img {
-                filter: invert(1);
-                margin-left: 1rem;
-                width: 1.2rem;
-            }
-        }
-    }
+    
 }
