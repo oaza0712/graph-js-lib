@@ -387,8 +387,6 @@
       let inputCard1 = document.createElement('input');
       inputCard1.className = "inputCard1"
 
-
-
       //////////////////////////DODAJ ZNAK ZA EMOJIE
       let chatContainer = document.createElement('div');
       chatContainer.className = 'chat-container';
@@ -464,7 +462,7 @@
         emojiSelectorCreate.classList.toggle('active');
         var isOut = isOutOfViewport(emojiSelectorCreate);
         if (isOut.any) {
-          emojiSelectorCreate.style.bottom='-710%'
+          emojiSelectorCreate.style.bottom = '-710%'
         }
       });
 
@@ -507,14 +505,30 @@
             counter = 1;
           }
           if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
+            li.addEventListener('click', () => {
+              emojiSelectorIconCreate.style.display = "none";
+              let emojiInput = document.createElement('p');
+
+              emojiSelectorCreate.classList.toggle('active');
+              //emojiInput.textContent = "";
+              emojiInput.textContent = emoji.character;
+              emojiInput.addEventListener('click', () => {
+                emojiSelectorCreate.classList.toggle('active');
+                var isOut = isOutOfViewport(emojiSelectorCreate);
+                if (isOut.any) {
+                  emojiSelectorCreate.style.bottom = '-710%'
+                }
+              });
+              utilityGroup.appendChild(emojiInput);
+            });
             emojiListCreate.appendChild(li);
+
             console.log("if " + previousCategory + " " + currentCategory + " " + counter);
             previousCategory = currentCategory;
 
           }
         });
       }
-
 
       emojiSearchCreate.addEventListener('keyup', e => {
         let value = e.target.value;
