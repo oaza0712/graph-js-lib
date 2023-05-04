@@ -292,6 +292,7 @@
     </div>
   </div>
   <div> <button class="button-85" role="button" id="add">+</button></div>
+  <div> <button class="button-85" role="button" id="get">submit</button></div>
 
   <!---------------------------------------------------------------------------------------------------------------------------->
   <!--PieCharts-->
@@ -470,7 +471,7 @@
       function setEmojiCategories(wishedCategories) {
         emojiCategories = wishedCategories;
       }
-      setEmojiCategories(['smileys-emotion', 'objects'])
+      setEmojiCategories(['food-drink'])
 
       let EmojisPerCategory;
       function setEmojisPerCategory(num) {
@@ -487,9 +488,6 @@
         let currentCategory;
         let first = true;
 
-        for (let i = 0; i < data.length; i++) {
-          console.log(data[i]);
-        }
         data.forEach(emoji => {
           if (first) {
             previousCategory = emoji.group;
@@ -508,9 +506,8 @@
             li.addEventListener('click', () => {
               emojiSelectorIconCreate.style.display = "none";
               let emojiInput = document.createElement('p');
-
+              emojiInput.className = "emoji-input";
               emojiSelectorCreate.classList.toggle('active');
-              //emojiInput.textContent = "";
               emojiInput.textContent = emoji.character;
               emojiInput.addEventListener('click', () => {
                 emojiSelectorCreate.classList.toggle('active');
@@ -520,10 +517,10 @@
                 }
               });
               utilityGroup.appendChild(emojiInput);
+
             });
             emojiListCreate.appendChild(li);
 
-            console.log("if " + previousCategory + " " + currentCategory + " " + counter);
             previousCategory = currentCategory;
 
           }
@@ -534,7 +531,6 @@
         let value = e.target.value;
         let emojis = document.querySelectorAll('#emojiList li');
         emojis.forEach(emoji => {
-          console.log(emoji.getAttribute('emoji-name'));
           if (emoji.getAttribute('emoji-name').toLowerCase().includes(value)) {
             emoji.style.display = 'flex';
           } else {
@@ -566,6 +562,95 @@
       dataCard.appendChild(card);
 
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function toUTF16(codePoint) {
+      var TEN_BITS = parseInt('1111111111', 2);
+      function u(codeUnit) {
+        return '\\u' + codeUnit.toString(16).toUpperCase();
+      }
+
+      if (codePoint <= 0xFFFF) {
+        return u(codePoint);
+      }
+      codePoint -= 0x10000;
+
+      // Shift right to get to most significant 10 bits
+      var leadSurrogate = 0xD800 + (codePoint >> 10);
+
+      // Mask to get least significant 10 bits
+      var tailSurrogate = 0xDC00 + (codePoint & TEN_BITS);
+
+      return u(leadSurrogate) + u(tailSurrogate);
+    }
+
+
+
+    collectButton()
+
+    function collectButton() {
+      const button = document.getElementById("get");
+      button.addEventListener('click', (event) => {
+        temp = getData();
+
+        let Bar2 = {
+          type: "bar",
+          labels: temp.labels,
+          values: temp.values,
+          unicode: temp.unicode,
+        };
+        let emojiString = "\uD83C\uDF4F";
+        console.log('temp.unicode '+ temp.unicode);
+        console.log('emojiString  '+emojiString);
+        console.log("emoji"+"\uD83C\uDF4F");
+        KidChart(barPictogram, Bar2);
+        KidChart(barTransition, Bar2);
+        KidChart(barChart, Bar2);
+   
+      });
+
+    }
+    ///stvarannje grafova na temelju ulaza
+    function getData() {
+      let table = document.getElementById('dataCards');
+      let unicode = table.getElementsByClassName('emoji-input');
+      let unicodeArray = [];
+      for (let i = 0; i < unicode.length; i++) {
+        if (unicode[i].textContent.trim != "") {
+          unicodeArray[i] = unicode[i].textContent//toUTF16(unicode[i].textContent.codePointAt(0));
+          //console.log(toUTF16(unicode[i].textContent.codePointAt(0)));
+        }
+      }
+
+      let name = table.getElementsByClassName('inputCard2');
+      let nameArray = [];
+      for (let i = 0; i < name.length; i++) {
+        if (name[i].value.length != 0) {
+          nameArray[i] = name[i].value
+          console.log("name " + i + " " + name[i].value);
+
+        }
+      }
+
+      let number = table.getElementsByClassName('inputCard3');
+      let numberArray = [];
+      for (let i = 0; i < number.length; i++) {
+        if (number[i].value.length != 0) {
+
+          numberArray[i] = number[i].value
+          console.log("number " + i + " " + number[i].value);
+        }
+
+        return {
+          labels: nameArray,
+          values: numberArray,
+          unicode: unicodeArray
+        }
+      }
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -624,6 +709,7 @@
       ],
     };
 
+
     //POZIV FUNKCIJE ZA RENDERING
     KidChart(piePictogram, Pie);
     KidChart(pieTransition, Pie);
@@ -633,16 +719,12 @@
     KidChart(lineTransition, Line);
     KidChart(lineChart, Line);
 
-    KidChart(barPictogram, Bar);
-    KidChart(barTransition, Bar);
-    KidChart(barChart, Bar);
+    /* KidChart(barPictogram, Bar2);
+     KidChart(barTransition, Bar2);
+     KidChart(barChart, Bar2);*/
 
     // RENDERING FUNCTION
     function KidChart(typeOfChart, userData) {
-
-      //MAKING HTML TABLE
-
-
 
 
       //DEFAULT DATA VALUES
@@ -671,6 +753,7 @@
 
 
       if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
+        console.log("userData labels: "+userData.labels);
         var data = {
           labels: userData.labels,
           datasets: [
@@ -795,6 +878,10 @@
             for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < Math.floor(userData.values[i]); j++) {
                 ctx.font = `${size}px Arial`;
+                console.log("u grafu " + userData.unicode[i]);
+                let bla =  userData.unicode[i];
+                console.log("u grafu " + bla);
+
                 ctx.fillText(
                   userData.unicode[i],
                   x.getPixelForValue(i) - size / 2,
