@@ -281,7 +281,7 @@
   </style>
 </head>
 
-<body>
+<body id = "body">
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
@@ -292,10 +292,11 @@
     </div>
   </div>
   <div> <button class="button-85" role="button" id="add">+</button></div>
+  <div></div>
   <div> <button class="button-85" role="button" id="get">submit</button></div>
 
   <!---------------------------------------------------------------------------------------------------------------------------->
-  <!--PieCharts-->
+  <!--PieCharts
   <div class="chartCard">
     <div>
       <div>piePictogram</div>
@@ -316,8 +317,8 @@
       <canvas id="pieChart"></canvas>
     </div>
   </div>
-
-  <!--BarCharts-->
+-->
+  <!--BarCharts
 
   <div class="chartCard">
     <div class="chartBox">
@@ -339,8 +340,8 @@
       <canvas id="barChart"></canvas>
     </div>
   </div>
-
-  <!--LineCharts-->
+-->
+  <!--LineCharts
   <div class="chartCard">
     <div class="chartBox">
       <div>linePictogram</div>
@@ -361,7 +362,7 @@
       <canvas id="lineChart"></canvas>
     </div>
   </div>
-
+-->
   <div class="temp"></div>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -566,52 +567,6 @@
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function toUTF16(codePoint) {
-      var TEN_BITS = parseInt('1111111111', 2);
-      function u(codeUnit) {
-        return '\\u' + codeUnit.toString(16).toUpperCase();
-      }
-
-      if (codePoint <= 0xFFFF) {
-        return u(codePoint);
-      }
-      codePoint -= 0x10000;
-
-      // Shift right to get to most significant 10 bits
-      var leadSurrogate = 0xD800 + (codePoint >> 10);
-
-      // Mask to get least significant 10 bits
-      var tailSurrogate = 0xDC00 + (codePoint & TEN_BITS);
-
-      return u(leadSurrogate) + u(tailSurrogate);
-    }
-
-
-
-    collectButton()
-
-    function collectButton() {
-      const button = document.getElementById("get");
-      button.addEventListener('click', (event) => {
-        temp = getData();
-
-        let Bar2 = {
-          type: "bar",
-          labels: temp.labels,
-          values: temp.values,
-          unicode: temp.unicode,
-        };
-        let emojiString = "\uD83C\uDF4F";
-        console.log('temp.unicode '+ temp.unicode);
-        console.log('emojiString  '+emojiString);
-        console.log("emoji"+"\uD83C\uDF4F");
-        KidChart(barPictogram, Bar2);
-        KidChart(barTransition, Bar2);
-        KidChart(barChart, Bar2);
-   
-      });
-
-    }
     ///stvarannje grafova na temelju ulaza
     function getData() {
       let table = document.getElementById('dataCards');
@@ -619,8 +574,9 @@
       let unicodeArray = [];
       for (let i = 0; i < unicode.length; i++) {
         if (unicode[i].textContent.trim != "") {
-          unicodeArray[i] = unicode[i].textContent//toUTF16(unicode[i].textContent.codePointAt(0));
-          //console.log(toUTF16(unicode[i].textContent.codePointAt(0)));
+          unicodeArray[i] = unicode[i].textContent
+          console.log("unicode " + i + " " + unicode[i].textContent);
+
         }
       }
 
@@ -636,20 +592,76 @@
 
       let number = table.getElementsByClassName('inputCard3');
       let numberArray = [];
+      console.log("number LENGTH" + number.length);
       for (let i = 0; i < number.length; i++) {
         if (number[i].value.length != 0) {
 
           numberArray[i] = number[i].value
           console.log("number " + i + " " + number[i].value);
         }
-
-        return {
-          labels: nameArray,
-          values: numberArray,
-          unicode: unicodeArray
-        }
       }
+      return {
+        labels: nameArray,
+        values: numberArray,
+        unicode: unicodeArray
+      }
+
     }
+
+    function createGraphCard(canvasId) {
+
+      let body = document.getElementById('body');
+      let chartCard = document.createElement('div');
+      chartCard.className = "chartCard";
+
+     /* let chartName = document.createElement('div');
+      let name = document.createElement('p');
+
+      name.textContent(canvasId);
+      chartName.appendChild(name);*/
+      let chartBox = document.createElement('div');
+      chartBox.className = "chartBox";
+
+      let canvas = document.createElement('canvas');
+      canvas.id = canvasId;
+
+      chartBox.appendChild(canvas);
+      //chartBox.appendChild(chartName);
+      chartCard.appendChild(chartBox);
+      body.appendChild(chartCard);
+
+
+
+    }
+
+
+    collectButton()
+
+    function collectButton() {
+      const button = document.getElementById("get");
+      button.addEventListener('click', (event) => {
+        temp = getData();
+        let Bar2 = {
+          type: "bar",
+          labels: temp.labels,
+          values: temp.values,
+          unicode: temp.unicode,
+        };
+
+        createGraphCard('barPictogram')
+        KidChart(barPictogram, Bar2, 'barPictogram');
+
+        createGraphCard('barTransition')
+        KidChart(barTransition, Bar2, 'barTransition');
+
+        createGraphCard('barChart')
+        KidChart(barChart, Bar2,  'barChart');
+
+
+      });
+
+    }
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -711,20 +723,20 @@
 
 
     //POZIV FUNKCIJE ZA RENDERING
-    KidChart(piePictogram, Pie);
-    KidChart(pieTransition, Pie);
-    KidChart(pieChart, Pie);
+    /*KidChart(piePictogram, Pie, "piePictogram");
+    KidChart(pieTransition, Pie, "pieTransition");
+    KidChart(pieChart, Pie, "pieChart");
 
-    KidChart(linePictogram, Line);
-    KidChart(lineTransition, Line);
-    KidChart(lineChart, Line);
+    KidChart(linePictogram, Line, "linePictogram");
+    KidChart(lineTransition, Line, "lineTransition");
+    KidChart(lineChart, Line, "lineChart");
 
-    /* KidChart(barPictogram, Bar2);
+     KidChart(barPictogram, Bar2);
      KidChart(barTransition, Bar2);
      KidChart(barChart, Bar2);*/
 
     // RENDERING FUNCTION
-    function KidChart(typeOfChart, userData) {
+    function KidChart(typeOfChart, userData, canvasId) {
 
 
       //DEFAULT DATA VALUES
@@ -753,7 +765,9 @@
 
 
       if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
-        console.log("userData labels: "+userData.labels);
+        console.log("userData labels: " + userData.labels);
+        console.log("userData values : " + userData.values);
+
         var data = {
           labels: userData.labels,
           datasets: [
@@ -874,13 +888,13 @@
             typeOfChart == "barPictogram"
           ) {
             let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
-
+            //console.log(" userData.values.length " +  userData.values.length);
             for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < Math.floor(userData.values[i]); j++) {
+                //console.log("userData.values[i] " + userData.values[i]);
+                //console.log("userData.unicode[i] " + userData.unicode[i] );
+
                 ctx.font = `${size}px Arial`;
-                console.log("u grafu " + userData.unicode[i]);
-                let bla =  userData.unicode[i];
-                console.log("u grafu " + bla);
 
                 ctx.fillText(
                   userData.unicode[i],
@@ -954,7 +968,7 @@
       // render init block
 
       const myKidChart = new Chart(
-        document.getElementById(typeOfChart),
+        document.getElementById(canvasId),
         config
       );
     }
