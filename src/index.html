@@ -281,7 +281,7 @@
   </style>
 </head>
 
-<body id = "body">
+<body id="body">
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
@@ -615,20 +615,27 @@
       chartCard.className = "chartCard";
 
       let chartName = document.createElement('div');
-      
-      chartName.innerHTML=canvasId;
+
+      chartName.innerHTML = canvasId;
       let chartBox = document.createElement('div');
       chartBox.className = "chartBox";
 
       let canvas = document.createElement('canvas');
       canvas.id = canvasId;
-      
+
+      let maxButton = document.createElement('button');
+      maxButton.classNmae = "button-graph";
+      maxButton.id = "maxButton"
+      maxButton.innerHTML = "Show MAX value";
+
+
       chartBox.appendChild(chartName);
       chartBox.appendChild(canvas);
+      chartBox.appendChild(maxButton);
+
       chartCard.appendChild(chartBox);
+
       body.appendChild(chartCard);
-
-
 
     }
 
@@ -647,15 +654,22 @@
         };
 
         createGraphCard('barPictogram')
-        KidChart(barPictogram, Bar2, 'barPictogram');
+        const barPictogramReturn = KidChart(barPictogram, Bar2, 'barPictogram');
 
-        createGraphCard('barTransition')
-        KidChart(barTransition, Bar2, 'barTransition');
+        //createGraphCard('barTransition')
+        //KidChart(barTransition, Bar2, 'barTransition');
 
-        createGraphCard('barChart')
-        KidChart(barChart, Bar2,  'barChart');
+        //createGraphCard('barChart')
+        //KidChart(barChart, Bar2, 'barChart');
 
+        document.getElementById("maxButton").addEventListener('click', () => {
 
+        
+          console.log("graph.options" + barPictogramReturn.options.scales.y.grid.color)
+          barPictogramReturn.options.scales.y.grid.color = "#FF0000";
+          console.log("u funkciji")
+          barPictogramReturn.update();
+        })
       });
 
     }
@@ -950,6 +964,9 @@
           scales: {
             y: {
               beginAtZero: true,
+              grid: {
+                color: '#EDF2F7'
+              }
             },
           },
         },
@@ -969,6 +986,7 @@
         document.getElementById(canvasId),
         config
       );
+      return myKidChart;
     }
   </script>
 </body>
