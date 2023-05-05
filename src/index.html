@@ -575,7 +575,6 @@
       for (let i = 0; i < unicode.length; i++) {
         if (unicode[i].textContent.trim != "") {
           unicodeArray[i] = unicode[i].textContent
-          console.log("unicode " + i + " " + unicode[i].textContent);
 
         }
       }
@@ -585,19 +584,16 @@
       for (let i = 0; i < name.length; i++) {
         if (name[i].value.length != 0) {
           nameArray[i] = name[i].value
-          console.log("name " + i + " " + name[i].value);
 
         }
       }
 
       let number = table.getElementsByClassName('inputCard3');
       let numberArray = [];
-      console.log("number LENGTH" + number.length);
       for (let i = 0; i < number.length; i++) {
         if (number[i].value.length != 0) {
 
           numberArray[i] = number[i].value
-          console.log("number " + i + " " + number[i].value);
         }
       }
       return {
@@ -664,10 +660,8 @@
 
         document.getElementById("maxButton").addEventListener('click', () => {
 
-        
-          console.log("graph.options" + barPictogramReturn.options.scales.y.grid.color)
+          console.log("tick.valzue:" + barPictogramReturn.options.scales.y.grid.tick.value);
           barPictogramReturn.options.scales.y.grid.color = "#FF0000";
-          console.log("u funkciji")
           barPictogramReturn.update();
         })
       });
