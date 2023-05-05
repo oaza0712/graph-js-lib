@@ -614,19 +614,17 @@
       let chartCard = document.createElement('div');
       chartCard.className = "chartCard";
 
-     /* let chartName = document.createElement('div');
-      let name = document.createElement('p');
-
-      name.textContent(canvasId);
-      chartName.appendChild(name);*/
+      let chartName = document.createElement('div');
+      
+      chartName.innerHTML=canvasId;
       let chartBox = document.createElement('div');
       chartBox.className = "chartBox";
 
       let canvas = document.createElement('canvas');
       canvas.id = canvasId;
-
+      
+      chartBox.appendChild(chartName);
       chartBox.appendChild(canvas);
-      //chartBox.appendChild(chartName);
       chartCard.appendChild(chartBox);
       body.appendChild(chartCard);
 
