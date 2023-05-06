@@ -660,7 +660,7 @@
 
         document.getElementById("maxButton").addEventListener('click', () => {
 
-          console.log("tick.valzue:" + barPictogramReturn.options.scales.y.grid.tick.value);
+          console.log("tick.valzue:" + barPictogramReturn.options.scales.y.grid.ticks.stepSize);
           barPictogramReturn.options.scales.y.grid.color = "#FF0000";
           barPictogramReturn.update();
         })
@@ -894,11 +894,9 @@
             typeOfChart == "barPictogram"
           ) {
             let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
-            //console.log(" userData.values.length " +  userData.values.length);
             for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < Math.floor(userData.values[i]); j++) {
-                //console.log("userData.values[i] " + userData.values[i]);
-                //console.log("userData.unicode[i] " + userData.unicode[i] );
+                
 
                 ctx.font = `${size}px Arial`;
 
@@ -955,14 +953,17 @@
         type: userData.type,
         data,
         options: {
+          responsive: true,
           scales: {
             y: {
               beginAtZero: true,
+              drawBorder: true,
+
               grid: {
-                color: '#EDF2F7'
+                color: '#000000',
               }
-            },
-          },
+            }
+          }
         },
         options: {
           plugins: {
