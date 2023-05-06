@@ -89,7 +89,7 @@
       height: calc(100% + 4px);
       animation: glowing-button-85 20s linear infinite;
       transition: opacity 0.3s ease-in-out;
-      border-radius: 100%;
+      border-radius:5%;
     }
 
     @keyframes glowing-button-85 {
@@ -115,7 +115,7 @@
       background: #ffffff;
       left: 0;
       top: 0;
-      border-radius: 100%;
+      border-radius: 5%;
     }
 
     div.dataCards {
@@ -285,84 +285,13 @@
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
-
-  <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
-  <div class="dataCards" id="dataCards">
-    <div class="row">
-    </div>
+  <div id = table>
+  
   </div>
   <div> <button class="button-85" role="button" id="add">+</button></div>
   <div></div>
   <div> <button class="button-85" role="button" id="get">submit</button></div>
 
-  <!---------------------------------------------------------------------------------------------------------------------------->
-  <!--PieCharts
-  <div class="chartCard">
-    <div>
-      <div>piePictogram</div>
-      <canvas id="piePictogram"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div>
-      <div>pieTransition</div>
-      <canvas id="pieTransition"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div>
-      <div>pieChart</div>
-      <canvas id="pieChart"></canvas>
-    </div>
-  </div>
--->
-  <!--BarCharts
-
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>barPictogram</div>
-      <canvas id="barPictogram"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>barTransition</div>
-      <canvas id="barTransition"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>barChart</div>
-      <canvas id="barChart"></canvas>
-    </div>
-  </div>
--->
-  <!--LineCharts
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>linePictogram</div>
-      <canvas id="linePictogram"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>lineTransition</div>
-      <canvas id="lineTransition"></canvas>
-    </div>
-  </div>
-
-  <div class="chartCard">
-    <div class="chartBox">
-      <div>lineChart</div>
-      <canvas id="lineChart"></canvas>
-    </div>
-  </div>
--->
   <div class="temp"></div>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -370,16 +299,25 @@
 
   <script>
 
-    button()
+    button('table')
 
     //TABLICA
-    function button() {
+    function button(table) {
       const button = document.getElementById("add");
-      button.addEventListener('click', (event) => { addCard() });
+      button.addEventListener('click', (event) => { addCard(table) });
 
     }
-    function addCard() {
-      let dataCard = document.getElementById('dataCards');
+    function addCard(table) {
+      let tableElement = document.getElementById(table);
+
+      let dataCard = document.createElement('div');
+      dataCard.className  = 'dataCards';
+      dataCard.id = 'dataCards';
+
+      let row = document.createElement('div');
+      row.className = 'row';
+      dataCard.appendChild(row);
+
 
       let card = document.createElement('div');
       card.className = "card";
@@ -389,7 +327,6 @@
       let inputCard1 = document.createElement('input');
       inputCard1.className = "inputCard1"
 
-      //////////////////////////DODAJ ZNAK ZA EMOJIE
       let chatContainer = document.createElement('div');
       chatContainer.className = 'chat-container';
 
@@ -472,7 +409,7 @@
       function setEmojiCategories(wishedCategories) {
         emojiCategories = wishedCategories;
       }
-      setEmojiCategories(['food-drink'])
+      //setEmojiCategories(['food-drink'])
 
       let EmojisPerCategory;
       function setEmojisPerCategory(num) {
@@ -561,6 +498,8 @@
       card.appendChild(container2);
 
       dataCard.appendChild(card);
+
+      tableElement.appendChild(dataCard);
 
     }
 
