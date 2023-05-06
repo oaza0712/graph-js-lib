@@ -659,9 +659,22 @@
         //KidChart(barChart, Bar2, 'barChart');
 
         document.getElementById("maxButton").addEventListener('click', () => {
+          barPictogramReturn.options.scales.y.grid.color = (ctx) => {
 
-          console.log("tick.valzue:" + barPictogramReturn.options.scales.y.grid.ticks.stepSize);
-          barPictogramReturn.options.scales.y.grid.color = "#FF0000";
+            let max = barPictogramReturn.data.datasets[0].data[0];
+            for(let i = 0; i < barPictogramReturn.data.datasets[0].data.length; i++){
+              if(max < barPictogramReturn.data.datasets[0].data[i]){
+                max = barPictogramReturn.data.datasets[0].data[i];
+              }
+            }
+  
+            if(ctx.tick.value == max){
+              return "red"
+            } else{
+          
+              return 'grey'
+            }            
+          };
           barPictogramReturn.update();
         })
       });
@@ -953,24 +966,28 @@
         type: userData.type,
         data,
         options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              drawBorder: true,
-
-              grid: {
-                color: '#000000',
-              }
-            }
-          }
-        },
-        options: {
           plugins: {
             legend: {
               display: display,
             },
           },
+          responsive: true,
+          scales: {
+            y: {
+              ticks: {
+         
+          color: "#718096",
+        
+        },
+              beginAtZero: true,
+              drawBorder: true,
+              grid: {
+                color: (ctx)=>{
+                  return "#718096"
+                },
+              }
+            }
+          }
         },
         plugins: [plugin],
       };
