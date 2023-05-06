@@ -89,7 +89,7 @@
       height: calc(100% + 4px);
       animation: glowing-button-85 20s linear infinite;
       transition: opacity 0.3s ease-in-out;
-      border-radius:5%;
+      border-radius: 5%;
     }
 
     @keyframes glowing-button-85 {
@@ -224,6 +224,7 @@
     div.chat-utilities {
       height: min-content;
       border-top-style: hidden !important;
+      background-color: #f6ffff;
 
     }
 
@@ -285,39 +286,51 @@
   <div class="chartMenu">
     <p>JS-lib for children data literacy</p>
   </div>
-  <div id = table>
-  
-  </div>
-  <div> <button class="button-85" role="button" id="add">+</button></div>
-  <div></div>
-  <div> <button class="button-85" role="button" id="get">submit</button></div>
 
-  <div class="temp"></div>
+  <div id="table"> </div>
+  <div id="tableButtons"></div>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-  <script>
+  <script type="module">
+ 
+    createInputTable('table', 'tableButtons')
+    
+    //ADDING BUTTONS TO PAGE
+    function createInputTable(tableId, buttonId) {
 
-    button('table')
+      let tableElement = document.getElementById(tableId);
+      let tableButtons = document.getElementById(buttonId);
 
-    //TABLICA
-    function button(table) {
-      const button = document.getElementById("add");
-      button.addEventListener('click', (event) => { addCard(table) });
-
-    }
-    function addCard(table) {
-      let tableElement = document.getElementById(table);
+      let addButton = document.createElement('button');
+      addButton.id = "add";
+      addButton.className = "button-85";
+      addButton.setAttribute('role', "button");
+      addButton.innerHTML = "+";
 
       let dataCard = document.createElement('div');
-      dataCard.className  = 'dataCards';
+      dataCard.className = 'dataCards';
       dataCard.id = 'dataCards';
 
       let row = document.createElement('div');
       row.className = 'row';
       dataCard.appendChild(row);
 
+      tableElement.appendChild(dataCard);
+
+      addButton.addEventListener('click', (event) => { addCard(tableId) });
+
+      tableButtons.appendChild(addButton);
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //ADDING CARDS TO TABLE
+
+    function addCard(tableId) {
+
+      let dataCard = document.getElementById("dataCards");
 
       let card = document.createElement('div');
       card.className = "card";
@@ -378,13 +391,12 @@
 
       header.appendChild(chatContainer);
 
-      //////////////////////////////////////////////////////////////////////////
+
+      //CHECKING IF POP UP IS IN VIEWPORT
       var isOutOfViewport = function (elem) {
 
-        // Get element's bounding
         var bounding = elem.getBoundingClientRect();
 
-        // Check if it's out of the viewport on each side
         var out = {};
         out.top = bounding.top < 0;
         out.left = bounding.left < 0;
@@ -405,11 +417,11 @@
         }
       });
 
+      //LOADING EMOJIS
       let emojiCategories = [];
       function setEmojiCategories(wishedCategories) {
         emojiCategories = wishedCategories;
       }
-      //setEmojiCategories(['food-drink'])
 
       let EmojisPerCategory;
       function setEmojisPerCategory(num) {
@@ -417,54 +429,61 @@
       }
 
       setEmojisPerCategory(10);
+      setEmojiCategories(['food-drink']);
 
       fetch('https://emoji-api.com/emojis?access_key=329dfe7d47ca9bf032e6959bd2692f5624520d19').then(res => res.json()).then(data => loadEmoji(data, emojiCategories, EmojisPerCategory));
-
+      
       function loadEmoji(data, emojiCategories, EmojisPerCategory) {
         let counter = 0;
         let previousCategory;
         let currentCategory;
         let first = true;
 
+        let emojiCodePoints = new Set()
+
         data.forEach(emoji => {
-          if (first) {
-            previousCategory = emoji.group;
-            first = false;
-          }
-          let li = document.createElement('li');
-          li.setAttribute('emoji-name', emoji.slug)
-          li.textContent = emoji.character;
-          let currentCategory = emoji.group;
-          if (previousCategory == currentCategory) {
-            counter++;
-          } else {
-            counter = 1;
-          }
-          if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
-            li.addEventListener('click', () => {
-              emojiSelectorIconCreate.style.display = "none";
-              let emojiInput = document.createElement('p');
-              emojiInput.className = "emoji-input";
-              emojiSelectorCreate.classList.toggle('active');
-              emojiInput.textContent = emoji.character;
-              emojiInput.addEventListener('click', () => {
+          if (!emojiCodePoints.has(emoji.codePoint)) {
+            if (first) {
+              previousCategory = emoji.group;
+              first = false;
+            }
+            let li = document.createElement('li');
+            li.setAttribute('emoji-name', emoji.slug)
+            li.textContent = emoji.character;
+            let currentCategory = emoji.group;
+            if (previousCategory == currentCategory) {
+              counter++;
+            } else {
+              counter = 1;
+            }
+            if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
+              li.addEventListener('click', () => {
+                emojiSelectorIconCreate.style.display = "none";
+                let emojiInput = document.createElement('p');
+                emojiInput.className = "emoji-input";
                 emojiSelectorCreate.classList.toggle('active');
-                var isOut = isOutOfViewport(emojiSelectorCreate);
-                if (isOut.any) {
-                  emojiSelectorCreate.style.bottom = '-710%'
-                }
+                emojiInput.textContent = emoji.character;
+                emojiInput.addEventListener('click', () => {
+                  emojiSelectorCreate.classList.toggle('active');
+                  var isOut = isOutOfViewport(emojiSelectorCreate);
+                  if (isOut.any) {
+                    emojiSelectorCreate.style.bottom = '-710%'
+                  }
+                });
+                utilityGroup.appendChild(emojiInput);
+
               });
-              utilityGroup.appendChild(emojiInput);
+              emojiListCreate.appendChild(li);
 
-            });
-            emojiListCreate.appendChild(li);
+              previousCategory = currentCategory;
 
-            previousCategory = currentCategory;
-
+            }
+            emojiCodePoints.add(emoji.codePoint)
           }
         });
       }
 
+      //SEARCHING EMOJIS
       emojiSearchCreate.addEventListener('keyup', e => {
         let value = e.target.value;
         let emojis = document.querySelectorAll('#emojiList li');
@@ -476,9 +495,9 @@
           }
         })
       })
-      //////////////////////////////////////////////////////////////////////////
+      
 
-
+      //MAKING CARDS FOR NUMBER AND TEXT INPUT
       let container = document.createElement('div');
       container.className = "container";
       let inputCard2 = document.createElement('input');
@@ -498,15 +517,12 @@
       card.appendChild(container2);
 
       dataCard.appendChild(card);
-
-      tableElement.appendChild(dataCard);
-
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ///stvarannje grafova na temelju ulaza
+    ///COLLECTING DATA
     function getData() {
       let table = document.getElementById('dataCards');
       let unicode = table.getElementsByClassName('emoji-input');
@@ -514,7 +530,6 @@
       for (let i = 0; i < unicode.length; i++) {
         if (unicode[i].textContent.trim != "") {
           unicodeArray[i] = unicode[i].textContent
-
         }
       }
 
@@ -542,7 +557,8 @@
       }
 
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //CREATING GRAPH
     function createGraphCard(canvasId) {
 
       let body = document.getElementById('body');
@@ -601,18 +617,18 @@
           barPictogramReturn.options.scales.y.grid.color = (ctx) => {
 
             let max = barPictogramReturn.data.datasets[0].data[0];
-            for(let i = 0; i < barPictogramReturn.data.datasets[0].data.length; i++){
-              if(max < barPictogramReturn.data.datasets[0].data[i]){
+            for (let i = 0; i < barPictogramReturn.data.datasets[0].data.length; i++) {
+              if (max < barPictogramReturn.data.datasets[0].data[i]) {
                 max = barPictogramReturn.data.datasets[0].data[i];
               }
             }
-  
-            if(ctx.tick.value == max){
+
+            if (ctx.tick.value == max) {
               return "red"
-            } else{
-          
+            } else {
+
               return 'grey'
-            }            
+            }
           };
           barPictogramReturn.update();
         })
@@ -848,7 +864,7 @@
             let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
             for (let i = 0; i < userData.values.length; i++) {
               for (let j = 0; j < Math.floor(userData.values[i]); j++) {
-                
+
 
                 ctx.font = `${size}px Arial`;
 
@@ -914,14 +930,14 @@
           scales: {
             y: {
               ticks: {
-         
-          color: "#718096",
-        
-        },
+
+                color: "#718096",
+
+              },
               beginAtZero: true,
               drawBorder: true,
               grid: {
-                color: (ctx)=>{
+                color: (ctx) => {
                   return "#718096"
                 },
               }
