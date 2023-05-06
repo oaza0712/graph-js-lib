@@ -51,7 +51,13 @@
 
 
     /* CSS */
+    #tableButtons{
+      display: flex;
+      
+    }
     .button-85 {
+      margin-left: auto;
+      margin-right: auto;
       padding: 0.6em 2em;
       border: none;
       outline: none;
@@ -309,6 +315,12 @@
       addButton.setAttribute('role', "button");
       addButton.innerHTML = "+";
 
+      let createButton = document.createElement('button');
+      createButton.id = "get";
+      createButton.className = "button-85";
+      createButton.setAttribute('role', "button");
+      createButton.innerHTML = "Create line Pictogram";
+
       let dataCard = document.createElement('div');
       dataCard.className = 'dataCards';
       dataCard.id = 'dataCards';
@@ -322,6 +334,8 @@
       addButton.addEventListener('click', (event) => { addCard(tableId) });
 
       tableButtons.appendChild(addButton);
+      tableButtons.appendChild(createButton);
+
 
     }
 
@@ -459,10 +473,19 @@
             if (emojiCategories.includes(emoji.group) && counter <= EmojisPerCategory) {
               li.addEventListener('click', () => {
                 emojiSelectorIconCreate.style.display = "none";
+                let emojiInputExists = utilityGroup.getElementsByTagName('p').length;
+
+                //DISABLE INPUTING MULTIPLE EMOJIS IN ONE CARD
+                if(emojiInputExists){
+                  utilityGroup.getElementsByTagName('p')[0].remove();
+                }
+                  
                 let emojiInput = document.createElement('p');
-                emojiInput.className = "emoji-input";
-                emojiSelectorCreate.classList.toggle('active');
                 emojiInput.textContent = emoji.character;
+                emojiInput.className = "emoji-input";
+                
+                emojiSelectorCreate.classList.toggle('active');
+
                 emojiInput.addEventListener('click', () => {
                   emojiSelectorCreate.classList.toggle('active');
                   var isOut = isOutOfViewport(emojiSelectorCreate);
@@ -470,6 +493,7 @@
                     emojiSelectorCreate.style.bottom = '-710%'
                   }
                 });
+
                 utilityGroup.appendChild(emojiInput);
 
               });
