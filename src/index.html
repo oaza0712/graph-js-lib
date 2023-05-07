@@ -364,11 +364,11 @@
 
   <script type="module">
    
-
-    createInputTable('table', 'tableButtons')
+    let dataCardsId = 0;
+    createInputTable('table', 'tableButtons',dataCardsId)
 
     //ADDING BUTTONS TO PAGE
-    function createInputTable(tableId, buttonId) {
+    function createInputTable(tableId, buttonId, dataCardsId) {
 
       let tableElement = document.getElementById(tableId);
       let tableButtons = document.getElementById(buttonId);
@@ -395,7 +395,11 @@
 
       tableElement.appendChild(dataCard);
 
-      addButton.addEventListener('click', (event) => { addCard(tableId) });
+      addButton.addEventListener('click', (event) => { 
+        addCard(tableId,dataCardsId);
+        dataCardsId++;
+        console.log(dataCardsId)
+       });
 
       tableButtons.appendChild(addButton);
       tableButtons.appendChild(createButton);
@@ -406,7 +410,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ADDING CARDS TO TABLE
 
-    function addCard(tableId) {
+    function addCard(tableId, dataCardsId) {
 
       let dataCard = document.getElementById("dataCards");
 
@@ -472,7 +476,7 @@
       //ADDING COLORPICKER
       let colorPicker = document.createElement('div');
       colorPicker.className='picker'
-      colorPicker.id='picker1'
+      colorPicker.id=dataCardsId;
 
       header.appendChild(colorPicker);
 
@@ -622,16 +626,15 @@
       card.appendChild(header);
       card.appendChild(container);
       card.appendChild(container2);
-
-
-    
       
       deleteButton.addEventListener('click', e => {
         card.remove();
       })
 
       dataCard.appendChild(card);
-      $(".picker").colorPick({
+      let id = new String("#" + dataCardsId.toString()); 
+      console.log("id:"+id);
+      $('#'+dataCardsId).colorPick({
 			'initialColor' : '#8e44ad',
 			'palette': ["#1abc9c", "#16a085", "#2ecc71", "#27ae60", "#3498db", "#2980b9", "#9b59b6", "#8e44ad", "#34495e", "#2c3e50", "#f1c40f", "#f39c12", "#e67e22", "#d35400", "#e74c3c", "#c0392b", "#ecf0f1"],
 			'onColorSelected': function() {
