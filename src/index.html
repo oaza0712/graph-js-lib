@@ -6,7 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Charts for children</title>
   <link rel="stylesheet" href="./styles/css/styles.css">
+  <link rel="stylesheet" href="./styles/colorPick.css">
+
   <style>
+    		.picker {
+			border-radius: 5px;
+			width: 36px;
+			height: 36px;
+			cursor: pointer;
+			-webkit-transition: all linear .2s;
+			-moz-transition: all linear .2s;
+			-ms-transition: all linear .2s;
+			-o-transition: all linear .2s;
+			transition: all linear .2s;
+			border: thin solid #eee;
+		}
+		.picker:hover {
+			transform: scale(1.1);
+		}
     * {
       margin: 0;
       padding: 0;
@@ -51,10 +68,11 @@
 
 
     /* CSS */
-    #tableButtons{
+    #tableButtons {
       display: flex;
-      
+
     }
+
     .button-85 {
       margin-left: auto;
       margin-right: auto;
@@ -285,6 +303,46 @@
       text-align: center;
 
     }
+
+    .deleteButton {
+      border-radius: 50%;
+      padding: 0.5em;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgb(86, 160, 209);
+      color: rgb(86, 160, 209);
+      position: relative;
+    }
+
+    .deleteButton:hover {
+      border: 2px solid rgb(86, 160, 209);
+      background-color: #eee;
+      color: #ffffff;
+    }
+
+    .deleteButton::before {
+      content: " ";
+      position: absolute;
+      display: block;
+      background-color: rgb(86, 160, 209);
+      width: 1px;
+      left: 6px;
+      top: 2.5px;
+      bottom: 2.5px;
+      transform: rotate(45deg);
+    }
+
+    .deleteButton::after {
+      content: " ";
+      position: absolute;
+      display: block;
+      background-color: rgb(86, 160, 209);
+      height: 1px;
+      top: 6px;
+      left: 2.5px;
+      right: 2.5px;
+      transform: rotate(45deg);
+    }
   </style>
 </head>
 
@@ -296,13 +354,19 @@
   <div id="table"> </div>
   <div id="tableButtons"></div>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="./colorPick.js"></script>
+
+   
 
   <script type="module">
- 
+   
+
     createInputTable('table', 'tableButtons')
-    
+
     //ADDING BUTTONS TO PAGE
     function createInputTable(tableId, buttonId) {
 
@@ -405,6 +469,12 @@
 
       header.appendChild(chatContainer);
 
+      //ADDING COLORPICKER
+      let colorPicker = document.createElement('div');
+      colorPicker.className='picker'
+      colorPicker.id='picker1'
+
+      header.appendChild(colorPicker);
 
       //CHECKING IF POP UP IS IN VIEWPORT
       var isOutOfViewport = function (elem) {
@@ -446,7 +516,7 @@
       setEmojiCategories(['food-drink']);
 
       fetch('https://emoji-api.com/emojis?access_key=329dfe7d47ca9bf032e6959bd2692f5624520d19').then(res => res.json()).then(data => loadEmoji(data, emojiCategories, EmojisPerCategory));
-      
+
       function loadEmoji(data, emojiCategories, EmojisPerCategory) {
         let counter = 0;
         let previousCategory;
@@ -476,14 +546,14 @@
                 let emojiInputExists = utilityGroup.getElementsByTagName('p').length;
 
                 //DISABLE INPUTING MULTIPLE EMOJIS IN ONE CARD
-                if(emojiInputExists){
+                if (emojiInputExists) {
                   utilityGroup.getElementsByTagName('p')[0].remove();
                 }
-                  
+
                 let emojiInput = document.createElement('p');
                 emojiInput.textContent = emoji.character;
                 emojiInput.className = "emoji-input";
-                
+
                 emojiSelectorCreate.classList.toggle('active');
 
                 emojiInput.addEventListener('click', () => {
@@ -519,7 +589,7 @@
           }
         })
       })
-      
+
 
       //MAKING CARDS FOR NUMBER AND TEXT INPUT
       let container = document.createElement('div');
@@ -536,11 +606,39 @@
       inputCard3.setAttribute("placeHolder", "Input number");
       container2.appendChild(inputCard3);
 
+
+
+      //ADDING DELETE CARD BUTOTN
+      let deleteButton = document.createElement('button');
+      deleteButton.className = "deleteButton";
+
+      header.style.position = "relative";
+      deleteButton.style.position = "absolute"
+      deleteButton.style.top = "5px"
+      deleteButton.style.left = "5px"
+      
+      header.appendChild(deleteButton);
+
       card.appendChild(header);
       card.appendChild(container);
       card.appendChild(container2);
 
+
+    
+      
+      deleteButton.addEventListener('click', e => {
+        card.remove();
+      })
+
       dataCard.appendChild(card);
+      $(".picker").colorPick({
+			'initialColor' : '#8e44ad',
+			'palette': ["#1abc9c", "#16a085", "#2ecc71", "#27ae60", "#3498db", "#2980b9", "#9b59b6", "#8e44ad", "#34495e", "#2c3e50", "#f1c40f", "#f39c12", "#e67e22", "#d35400", "#e74c3c", "#c0392b", "#ecf0f1"],
+			'onColorSelected': function() {
+				console.log("The user has selected the color: " + this.color)
+				this.element.css({'backgroundColor': this.color, 'color': this.color});
+			}
+		});
     }
 
 
@@ -599,7 +697,7 @@
       canvas.id = canvasId;
 
       let maxButton = document.createElement('button');
-      maxButton.classNmae = "button-graph";
+      maxButton.className = "button-85";
       maxButton.id = "maxButton"
       maxButton.innerHTML = "Show MAX value";
 
