@@ -163,72 +163,6 @@
 
     }
 
-  
-
-    @media(max-width: 1273px) {
-      .card {
-        flex-basis: 33.33%;
-      }
-    }
-
-    @media(max-width: 815px) {
-      .card {
-        flex-basis: 50%;
-      }
-    }
-
-    @media(max-width: 555px) {
-      .card {
-        flex-basis: 100%;
-      }
-    }
-
-    @keyframes shake {
-      0% {
-        transform: translate(1px, 1px) rotate(0deg);
-      }
-
-      10% {
-        transform: translate(-1px, -2px) rotate(-1deg);
-      }
-
-      20% {
-        transform: translate(-3px, 0px) rotate(1deg);
-      }
-
-      30% {
-        transform: translate(3px, 2px) rotate(0deg);
-      }
-
-      40% {
-        transform: translate(1px, -1px) rotate(1deg);
-      }
-
-      50% {
-        transform: translate(-1px, 2px) rotate(-1deg);
-      }
-
-      60% {
-        transform: translate(-3px, 1px) rotate(0deg);
-      }
-
-      70% {
-        transform: translate(3px, 1px) rotate(-1deg);
-      }
-
-      80% {
-        transform: translate(-1px, -1px) rotate(1deg);
-      }
-
-      90% {
-        transform: translate(1px, 2px) rotate(0deg);
-      }
-
-      100% {
-        transform: translate(1px, -2px) rotate(-1deg);
-      }
-    }
-
     div.header {
       height: 120px;
       background-color: #f6ffff;
@@ -361,6 +295,8 @@
   <script type="module">
    
     let dataCardsId = 0;
+    let canvasId = 0;
+
     createInputTable('table', 'tableButtons',dataCardsId)
 
     //ADDING BUTTONS TO PAGE
@@ -412,6 +348,8 @@
 
       let card = document.createElement('div');
       card.className = "card";
+      //card.id="card"+dataCardsId;
+
 
       let header = document.createElement('div');
       header.className = "header";
@@ -646,6 +584,8 @@
     ///COLLECTING DATA
     function getData() {
       let table = document.getElementById('dataCards');
+
+
       let unicode = table.getElementsByClassName('emoji-input');
       let unicodeArray = [];
       for (let i = 0; i < unicode.length; i++) {
@@ -671,10 +611,24 @@
           numberArray[i] = number[i].value
         }
       }
+      let color = table.getElementsByClassName('picker');
+      let colorArray = [];
+      let backgroundColorArray = [];
+
+
+      for (let i = 0; i < color.length; i++) {
+       // if (color[i].value.length != 0) {
+          colorArray[i] = color[i].style.color.replace(')', ', 0.75)').replace('rgb', 'rgba');
+          backgroundColorArray[i] = color[i].style.color.replace(')', ', 0.65)').replace('rgb', 'rgba');
+
+       // }
+      }
       return {
         labels: nameArray,
         values: numberArray,
-        unicode: unicodeArray
+        unicode: unicodeArray,
+        backgroundColor: backgroundColorArray,
+        color: colorArray
       }
 
     }
@@ -688,7 +642,7 @@
 
       let chartName = document.createElement('div');
 
-      chartName.innerHTML = canvasId;
+      chartName.innerHTML = canvasId.replace("[0-9]", "");
       let chartBox = document.createElement('div');
       chartBox.className = "chartBox";
 
@@ -699,7 +653,6 @@
       maxButton.className = "button-85";
       maxButton.id = "maxButton"
       maxButton.innerHTML = "Show MAX value";
-
 
       chartBox.appendChild(chartName);
       chartBox.appendChild(canvas);
@@ -723,11 +676,12 @@
           labels: temp.labels,
           values: temp.values,
           unicode: temp.unicode,
+          color: temp.color
         };
 
-        createGraphCard('barPictogram')
-        const barPictogramReturn = KidChart(barPictogram, Bar2, 'barPictogram');
-
+        createGraphCard("barPictogram" + canvasId.toString())
+        const barPictogramReturn = KidChart(barPictogram, Bar2, "barPictogram" + canvasId.toString());
+        canvasId++;
         //createGraphCard('barTransition')
         //KidChart(barTransition, Bar2, 'barTransition');
 
@@ -841,18 +795,8 @@
           {
             label: "Number of fruit",
             data: userData.values,
-            backgroundColor: [
-              "rgba(93, 230, 0, 0.8)",
-              "rgba(233, 148, 0, 0.8)",
-              "rgba(255, 252, 0, 0.8)",
-              "rgba(255, 5, 5, 0.8)",
-            ],
-            borderColor: [
-              "rgba(93, 230, 0, 1)",
-              "rgba(233, 148, 0, 1)",
-              "rgba(255, 252, 0, 1)",
-              "rgba(255, 5, 5, 1)",
-            ],
+            backgroundColor: userData.backgroundColor,
+            borderColor: userData.color,
             borderWidth: 1,
           },
         ],
@@ -870,12 +814,7 @@
               label: "Type of fruit",
               data: userData.values,
               backgroundColor: "rgba(255, 255, 255, 0.1)",
-              borderColor: [
-                "rgba(93, 230, 0, 1)",
-                "rgba(233, 148, 0, 1)",
-                "rgba(255, 252, 0, 1)",
-                "rgba(255, 5, 5, 1)",
-              ],
+              borderColor: userData.color,
               borderWidth: 5,
             },
           ],
