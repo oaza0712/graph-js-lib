@@ -1,6 +1,6 @@
-function KidChart(typeOfChart, userData) {
+export function KidChart(typeOfChart, userData, canvasId) {
 
-      
+
   //DEFAULT DATA VALUES
   var data = {
     labels: userData.labels,
@@ -8,18 +8,8 @@ function KidChart(typeOfChart, userData) {
       {
         label: "Number of fruit",
         data: userData.values,
-        backgroundColor: [
-          "rgba(93, 230, 0, 0.8)",
-          "rgba(233, 148, 0, 0.8)",
-          "rgba(255, 252, 0, 0.8)",
-          "rgba(255, 5, 5, 0.8)",
-        ],
-        borderColor: [
-          "rgba(93, 230, 0, 1)",
-          "rgba(233, 148, 0, 1)",
-          "rgba(255, 252, 0, 1)",
-          "rgba(255, 5, 5, 1)",
-        ],
+        backgroundColor: userData.backgroundColor,
+        borderColor: userData.color,
         borderWidth: 1,
       },
     ],
@@ -27,6 +17,9 @@ function KidChart(typeOfChart, userData) {
 
 
   if (typeOfChart == "barPictogram" || typeOfChart == "piePictogram") {
+    console.log("userData labels: " + userData.labels);
+    console.log("userData values : " + userData.values);
+
     var data = {
       labels: userData.labels,
       datasets: [
@@ -34,12 +27,7 @@ function KidChart(typeOfChart, userData) {
           label: "Type of fruit",
           data: userData.values,
           backgroundColor: "rgba(255, 255, 255, 0.1)",
-          borderColor: [
-            "rgba(93, 230, 0, 1)",
-            "rgba(233, 148, 0, 1)",
-            "rgba(255, 252, 0, 1)",
-            "rgba(255, 5, 5, 1)",
-          ],
+          borderColor: userData.color,
           borderWidth: 5,
         },
       ],
@@ -118,13 +106,13 @@ function KidChart(typeOfChart, userData) {
             userData.values[i] =
               ((width / 2 -
                 Math.ceil(
-                  Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6)-1;
+                  Math.sqrt(0.5 * size * 0.5 * size + (max_width * max_width) / 4))) / 6) - 1;
           }
 
           let a = 0.5 * size * 0.5 * size;
           let b = max_width * max_width;
-          let radius = (width / 2 - Math.ceil(Math.sqrt(a + b / 4)) );
-          
+          let radius = (width / 2 - Math.ceil(Math.sqrt(a + b / 4)));
+
           for (let j = 0; j < Math.floor(userData.values[i]); j++) {
 
             ctx.font = `${size}px Arial`;
@@ -147,10 +135,12 @@ function KidChart(typeOfChart, userData) {
         typeOfChart == "barPictogram"
       ) {
         let size = (y.getPixelForValue(0) - y.getPixelForValue(1)) / 1.5;
-
         for (let i = 0; i < userData.values.length; i++) {
           for (let j = 0; j < Math.floor(userData.values[i]); j++) {
+
+
             ctx.font = `${size}px Arial`;
+
             ctx.fillText(
               userData.unicode[i],
               x.getPixelForValue(i) - size / 2,
@@ -195,7 +185,7 @@ function KidChart(typeOfChart, userData) {
   };
 
   var display = false;
-  if (typeOfChart == "pieChart" || typeOfChart == "lineChart" ) {
+  if (typeOfChart == "pieChart" || typeOfChart == "lineChart") {
     display = true;
   }
 
@@ -204,18 +194,28 @@ function KidChart(typeOfChart, userData) {
     type: userData.type,
     data,
     options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-    options: {
       plugins: {
         legend: {
           display: display,
         },
       },
+      responsive: true,
+      scales: {
+        y: {
+          ticks: {
+
+            color: "#718096",
+
+          },
+          beginAtZero: true,
+          drawBorder: true,
+          grid: {
+            color: (ctx) => {
+              return "#718096"
+            },
+          }
+        }
+      }
     },
     plugins: [plugin],
   };
@@ -223,7 +223,8 @@ function KidChart(typeOfChart, userData) {
   // render init block
 
   const myKidChart = new Chart(
-    document.getElementById(typeOfChart),
+    document.getElementById(canvasId),
     config
   );
+  return myKidChart;
 }
