@@ -3,6 +3,12 @@
     //ADDING BUTTONS TO PAGE
    export function createInputTable(tableId, buttonId, dataCardsId) {
       let tableElement = document.getElementById(tableId);
+
+            
+
+
+
+
       let tableButtons = document.getElementById(buttonId);
       let addButton = document.createElement('button');
       addButton.id = "add";
@@ -67,7 +73,7 @@
       let emojiSelectorIconCreate = document.createElement('li');
       emojiSelectorIconCreate.id = "emojiSelectorIcon";
       let img = document.createElement('img');
-      img.setAttribute('src', '/face-smile-regular.f92a0962.svg');
+      img.setAttribute('src', 'https://upload.wikimedia.org/wikipedia/commons/9/90/Twemoji_1f600.svg');
       emojiSelectorIconCreate.appendChild(img);
       inputContainer.appendChild(emojiSearchCreate);
       emojiSelectorCreate.appendChild(inputContainer);
